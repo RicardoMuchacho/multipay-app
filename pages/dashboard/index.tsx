@@ -15,6 +15,11 @@ const Dashboard: NextPage<Props> = ({ username }) => {
       <Link href={'/'}>
         <a> Home </a>
       </Link>
+      <div>
+        <Link href={'/test'}>
+          <a> test </a>
+        </Link>
+      </div>
     </>
   )
 }

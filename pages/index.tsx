@@ -1,90 +1,110 @@
 import type { NextPage } from 'next'
+import Link from 'next/link'
 import Head from 'next/head'
 import Image from 'next/image'
-import Link from 'next/link'
 
-const Home: NextPage = () => {
+const Test: NextPage = () => {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
+    <>
       <Head>
-        <title>Multipay</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link
+          href="https://fonts.googleapis.com/css?family=Inter&display=swap"
+          rel="stylesheet"
+        />
       </Head>
+      <div id="gradientbg">
+        <nav className="flex h-28 w-full flex-row content-center justify-between bg-royal-blue opacity-100">
+          <div className="order-first ml-20 flex">
+            <Image src="/assets/Logo.svg" width={30} height={30}></Image>
+            <p className="ml-8 self-center text-3xl text-white">MULTIPAY</p>
+          </div>
 
-      <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to
-          <a className="text-blue-600" href="https://nextjs.org">
-            Next.js!
-          </a>
-        </h1>
-        <Link href={'/dashboard'}>
-          <a> Dashboard </a>
-        </Link>
+          <div className="order-last flex">
+            <button className="self-center rounded border border-solid border-white p-1 px-2 text-lg text-white hover:bg-slate-600">
+              Buy MPAY
+            </button>
+            <button className="mr-20 ml-10 self-center rounded border border-white p-1 px-2 text-lg text-white hover:bg-slate-600">
+              Connect Wallet
+            </button>
+          </div>
+        </nav>
+        <div id="earthbg">
+          <div className="text-white">
+            <Link href={'/dashboard'}>
+              <a className=""> Dashboard </a>
+            </Link>
 
-        <p className="mt-3 text-2xl">
-          Get started by editing
-          <code className="rounded-md bg-gray-100 p-3 font-mono text-lg">
-            pages/index.tsx
-          </code>
-        </p>
-
-        <div className="mt-6 flex max-w-4xl flex-wrap items-center justify-around sm:w-full">
-          <a
-            href="https://nextjs.org/docs"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Documentation &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Find in-depth information about Next.js features and its API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Learn &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Learn about Next.js in an interactive course with quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Examples &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Discover and deploy boilerplate example Next.js projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Deploy &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+            <div className="absolute top-40 flex-col justify-center text-white">
+              <div className="order-1 flex basis-1/2 justify-center">
+                <p className="self-center text-center text-4xl">
+                  Reach new customers and manage multiple <br /> crypto payments
+                  with ease
+                </p>
+              </div>
+              <div className="order-2 mt-40 flex basis-1/2 content-center justify-center px-20">
+                <div className="order-1 basis-1/3 flex-col px-5">
+                  <p className="semi-bold mb-5 text-center text-xl">
+                    Secure Operations
+                  </p>
+                  <p className="2">
+                    We use the power of blockchain technology to achieve fast
+                    and secure transactions
+                  </p>
+                </div>
+                <div className="order-2 basis-1/3 flex-col px-5">
+                  <p className="semi-bold mb-5 text-center text-xl">
+                    Save Money
+                  </p>
+                  <p className="2">
+                    Make multiple transactions at the price of one with our
+                    cutting edge Multipay function
+                  </p>
+                </div>
+                <div className="order-3 basis-1/3 flex-col px-5">
+                  <p className="semi-bold mb-5 px-5 text-center text-xl">
+                    Privacy
+                  </p>
+                  <p className="2">
+                    Make multiple transactions at the price of one with our
+                    cutting edge Multipay function
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </main>
 
-      <footer className="flex h-24 w-full items-center justify-center border-t">
-        <a
-          className="flex items-center justify-center gap-2"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by
-          <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-        </a>
-      </footer>
-    </div>
+        <footer className="position: absolute bottom-0 left-0 w-full bg-black bg-opacity-30 text-white">
+          <div className="mx-10 mt-5 mb-10 flex flex-row justify-between">
+            <div className="order-1 flex">
+              <ul>
+                <li className="mb-3">Contact</li>
+                <li className="text-sm opacity-50">
+                  ricardo.developer@gmail.com
+                </li>
+                <li>Contact</li>
+              </ul>
+            </div>
+            <div className="order-2 flex">
+              <ul>
+                <li>Services</li>
+              </ul>
+            </div>
+            <div className="order-3 flex">
+              <ul>
+                <li>More Info</li>
+              </ul>
+            </div>
+            <div className="order-4 flex">
+              <ul>
+                <li>Source Code</li>
+              </ul>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </>
   )
 }
 
-export default Home
+export default Test
