@@ -1,17 +1,17 @@
-import type { NextPage } from 'next'
+import NextPage from 'next'
 import Link from 'next/link'
-
-interface Props {
-  username: string
-}
 
 //const Dashboard: NextPage<{ username: string }> = ({ username }) => {
 
-const Dashboard: NextPage<Props> = ({ username }) => {
+export const index = () => {
+  return <div>index</div>
+}
+
+const Dashboard = (props) => {
   return (
     <>
       <div>Dashboard</div>
-      <p>username: {username}</p>
+      <p>username: {props.username}</p>
       <Link href={'/'}>
         <a> Home </a>
       </Link>

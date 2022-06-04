@@ -1,10 +1,11 @@
-import type { NextPage } from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
+import { FaBeer } from 'react-icons/fa'
+import { useMoralis } from 'react-moralis'
 
-const Test: NextPage = () => {
+const HomePage = () => {
   return (
     <>
       <Head>
@@ -30,14 +31,14 @@ const Test: NextPage = () => {
           </div>
         </nav>
         <div id="earthbg">
-          <div className="absolute top-40 flex-col justify-center text-white">
+          <div className="absolute top-20 flex-col justify-center text-white">
             <div className="order-1 flex basis-1/2 justify-center">
               <p className="self-center text-center text-4xl">
                 Reach new customers and manage multiple <br /> crypto payments
                 with ease
               </p>
             </div>
-            <div className="order-2 mt-40 flex basis-1/2 content-center justify-center px-20">
+            <div className="order-2 mt-20 flex basis-1/2 content-center justify-center px-20">
               <motion.div
                 initial="hidden"
                 animate="visible"
@@ -98,7 +99,7 @@ const Test: NextPage = () => {
               >
                 <span className="mb-3 flex -translate-x-4 justify-center">
                   <img
-                    className=""
+                    className="object-contain"
                     src="/assets/dollars.png"
                     alt="dollars image"
                   />
@@ -143,14 +144,13 @@ const Test: NextPage = () => {
                   </p>
                 </span>
                 <p className="2">
-                  Make multiple transactions at the price of one with our
-                  cutting edge Multipay function
+                  No personal data, long registrations, login or kyc
+                  verification, just connect your wallet
                 </p>
               </motion.div>
             </div>
           </div>
         </div>
-
         <footer className="position: absolute bottom-0 left-0 w-full bg-black bg-opacity-30 text-white">
           <div className="mx-10 mt-5 mb-10 flex flex-row justify-between">
             <div className="order-1 flex">
@@ -184,4 +184,4 @@ const Test: NextPage = () => {
   )
 }
 
-export default Test
+export default HomePage
