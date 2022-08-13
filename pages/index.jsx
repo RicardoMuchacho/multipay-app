@@ -2,8 +2,13 @@ import Link from 'next/link'
 import Head from 'next/head'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { FaBeer } from 'react-icons/fa'
 import { useMoralis } from 'react-moralis'
+import ConnectWalletBtn from '../components/ConnectWalletBtn'
+import DefaultModal from '../components/Modal'
+import Test from '../components/Test'
+import CustomLink from '../components/CustomLink'
+import MetamaskConnect from '../components/MetamaskConnect'
+import { AiFillLinkedin, AiFillGithub } from 'react-icons/ai'
 
 const HomePage = () => {
   return (
@@ -22,22 +27,46 @@ const HomePage = () => {
           </div>
 
           <div className="order-last flex">
+            <CustomLink
+              className="mr-10 self-center rounded border border-solid border-white p-1 px-2 text-white hover:bg-slate-600"
+              href={'/dashboard'}
+            >
+              Dashboard (test)
+            </CustomLink>
             <button className="self-center rounded border border-solid border-white p-1 px-2 text-white hover:bg-slate-600">
               Buy MPAY
             </button>
-            <button className="mr-20 ml-10 self-center rounded border border-white p-1 px-2 text-white hover:bg-slate-600">
-              Connect Wallet
-            </button>
+            <MetamaskConnect></MetamaskConnect>
           </div>
         </nav>
         <div id="earthbg">
           <div className="absolute top-20 flex-col justify-center text-white">
-            <div className="order-1 flex basis-1/2 justify-center">
-              <p className="self-center text-center text-4xl">
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: {
+                  scale: 0.8,
+                  opacity: 0,
+                  translateY: 100,
+                },
+                visible: {
+                  scale: 1,
+                  opacity: 1,
+                  translateY: 0,
+                  transition: {
+                    delay: 0.2,
+                    duration: 1,
+                  },
+                },
+              }}
+              className="order-1 flex basis-1/2 justify-center"
+            >
+              <p className="self-center text-center  text-4xl ">
                 Reach new customers and manage multiple <br /> crypto payments
                 with ease
               </p>
-            </div>
+            </motion.div>
             <div className="order-2 mt-20 flex basis-1/2 content-center justify-center px-20">
               <motion.div
                 initial="hidden"
@@ -53,7 +82,7 @@ const HomePage = () => {
                     opacity: 1,
                     translateY: 0,
                     transition: {
-                      delay: 0.5,
+                      delay: 1,
                       duration: 1,
                     },
                   },
@@ -90,7 +119,7 @@ const HomePage = () => {
                     opacity: 1,
                     translateY: 0,
                     transition: {
-                      delay: 1,
+                      delay: 1.5,
                       duration: 1,
                     },
                   },
@@ -126,7 +155,7 @@ const HomePage = () => {
                     opacity: 1,
                     translateY: 0,
                     transition: {
-                      delay: 1.5,
+                      delay: 2,
                       duration: 1,
                     },
                   },
@@ -152,29 +181,43 @@ const HomePage = () => {
           </div>
         </div>
         <footer className="position: absolute bottom-0 left-0 w-full bg-black bg-opacity-30 text-white">
-          <div className="mx-10 mt-5 mb-10 flex flex-row justify-between">
+          <div className="mx-10 mt-5 mb-10 flex flex-row justify-start gap-10">
             <div className="order-1 flex">
               <ul>
-                <li className="mb-3">Contact</li>
-                <li className="text-sm opacity-50">
-                  ricardo.developer@gmail.com
+                <li className="mb-1">Contact</li>
+                <li className="text-sm text-[#7B7E84]">
+                  ricardomuchacho.developer@gmail.com
                 </li>
-                <li>Contact</li>
+                <li className="mt-1">
+                  <AiFillLinkedin
+                    className="h-5 w-5"
+                    color="#7B7E84"
+                    onClick={() => console.log('H')}
+                  />
+                </li>
               </ul>
             </div>
             <div className="order-2 flex">
               <ul>
-                <li>Services</li>
+                <li className="mb-1">Services</li>
+                <li className="text-sm text-[#7B7E84]">Dashboard</li>
+                <li className="text-sm text-[#7B7E84]">Multipay</li>
+                <li className="text-sm text-[#7B7E84]">Activity</li>
               </ul>
             </div>
             <div className="order-3 flex">
               <ul>
-                <li>More Info</li>
+                <li className="mb-1">More Info</li>
+                <li className="text-sm text-[#7B7E84]">Terms and Conditions</li>
+                <li className="text-sm text-[#7B7E84]">Privacy Policy</li>
               </ul>
             </div>
             <div className="order-4 flex">
               <ul>
-                <li>Source Code</li>
+                <li className="mb-1">Source Code</li>
+                <li>
+                  <AiFillGithub className="h-5 w-5" color="#7B7E84" />
+                </li>
               </ul>
             </div>
           </div>
