@@ -11,6 +11,8 @@ import MetamaskConnect from '../components/MetamaskConnect'
 import { AiFillLinkedin, AiFillGithub } from 'react-icons/ai'
 
 const HomePage = () => {
+  const { isAuthenticated, authenticate } = useMoralis()
+  console.log(isAuthenticated)
   return (
     <>
       <Head>

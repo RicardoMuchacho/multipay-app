@@ -4,7 +4,7 @@ import FooterComp from '../../components/FooterComp'
 
 //const Dashboard: NextPage<{ username: string }> = ({ username }) => {
 
-const Dashboard = (props) => {
+const Activity = (props) => {
   return (
     <>
       <Navbar></Navbar>
@@ -13,7 +13,7 @@ const Dashboard = (props) => {
           <div className="w-500px col-span-2 row-span-2 h-full rounded-md bg-white p-5 shadow-md">
             <p>username: {props.username}</p>
             <Link href={'/'}>
-              <a> Home </a>
+              <a> activity </a>
             </Link>
           </div>
           <div className="h-50%  relative w-full rounded-md bg-white p-5 shadow-md"></div>
@@ -31,4 +31,4 @@ export async function getStaticProps() {
   }
 }
 
-export default Dashboard
+export default Activity
