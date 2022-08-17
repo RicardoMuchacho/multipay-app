@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import Head from 'next/head'
 import Image from 'next/image'
+import Router from 'next/router'
 import { motion } from 'framer-motion'
 import { useMoralis } from 'react-moralis'
-import ConnectWalletBtn from '../components/ConnectWalletBtn'
 import DefaultModal from '../components/Modal'
 import Test from '../components/Test'
 import CustomLink from '../components/CustomLink'
@@ -11,8 +11,15 @@ import MetamaskConnect from '../components/MetamaskConnect'
 import { AiFillLinkedin, AiFillGithub } from 'react-icons/ai'
 
 const HomePage = () => {
-  const { isAuthenticated, authenticate } = useMoralis()
-  console.log(isAuthenticated)
+  const {
+    authenticate,
+    isAuthenticated,
+    isAuthenticating,
+    user,
+    logout,
+    isLoggingOut,
+  } = useMoralis()
+
   return (
     <>
       <Head>
@@ -38,7 +45,15 @@ const HomePage = () => {
             <button className="self-center rounded border border-solid border-white p-1 px-2 text-white hover:bg-slate-600">
               Buy MPAY
             </button>
-            <MetamaskConnect></MetamaskConnect>
+            <MetamaskConnect
+              isAuthenticated={isAuthenticated}
+              isAuthenticating={isAuthenticating}
+              user={user}
+              authenticate={authenticate}
+              logout={logout}
+              isLoggingOut={isLoggingOut}
+              isLandingPage={true}
+            ></MetamaskConnect>
           </div>
         </nav>
         <div id="earthbg">

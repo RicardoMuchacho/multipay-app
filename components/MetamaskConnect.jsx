@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { useMoralis } from 'react-moralis'
+import { useMoralis, useMoralisWeb3Api } from 'react-moralis'
+import Router from 'next/router'
 
-export const MetamaskConnect = () => {
-  const { authenticate, isAuthenticated, account, chainId, logout } =
-    useMoralis()
+export const MetamaskConnect = (props) => {
+  const truncateAddress = (str) => {
+    let str1 = str.slice(0, 4)
+    let str2 = str.slice(-4)
+    let truncatedAddress = str1 + '...' + str2
+    return truncatedAddress
+  }
 
   // const login = async () => {
   //   if (!isAuthenticated) {
@@ -19,12 +24,16 @@ export const MetamaskConnect = () => {
   //   }
   // }
 
-  if (!isAuthenticated) {
+  if (!props.isAuthenticated) {
     return (
       <>
         <button
           className="mr-20 ml-10 inline-flex items-center self-center rounded border border-white p-1 px-2 text-white hover:bg-slate-600"
-          onClick={() => authenticate()}
+          onClick={() =>
+            props.authenticate().then(() => {
+              if (props.isLandingPage) Router.push('/dashboard')
+            })
+          }
         >
           <svg
             className="mr-2 h-4 w-4"
@@ -46,9 +55,14 @@ export const MetamaskConnect = () => {
     )
   }
   return (
-    <div>
-      <p>Authenticated</p>
-    </div>
+    <>
+      <div className="mr-10 ml-10 inline-flex items-center self-center rounded border border-white p-1 px-2 text-white hover:bg-slate-600">
+        <p>{truncateAddress(props.user.get('ethAddress'))}</p>
+      </div>
+      <div className="mr-10 inline-flex items-center self-center rounded border border-white p-1 px-2 text-white hover:bg-slate-600">
+        <button onClick={() => props.logout()}>logout</button>
+      </div>
+    </>
   )
 }
 

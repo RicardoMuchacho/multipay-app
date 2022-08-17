@@ -3,6 +3,7 @@ import Image from 'next/image'
 import CustomLink from '../components/CustomLink'
 import MetamaskConnect from '../components/MetamaskConnect'
 import { useState } from 'react'
+import Router from 'next/router'
 
 export const Navbar = (props) => {
   const [active, setActive] = useState(true)
@@ -11,7 +12,13 @@ export const Navbar = (props) => {
     <nav className="flex h-24 w-full flex-row content-center justify-between bg-royal-blue opacity-100">
       <div className="flex justify-start">
         <div className="order-first ml-20 flex">
-          <Image src="/assets/logo.svg" width={25} height={25}></Image>
+          <Image
+            className="hover:cursor-pointer"
+            onClick={() => Router.push('/')}
+            src="/assets/logo.svg"
+            width={25}
+            height={25}
+          ></Image>
           <CustomLink
             href={'/dashboard'}
             className="link-underline ml-8 self-center text-2xl text-white"
@@ -40,7 +47,15 @@ export const Navbar = (props) => {
         <button className="self-center rounded border border-solid border-white p-1 px-2 text-white hover:bg-slate-600">
           Buy MPAY
         </button>
-        <MetamaskConnect></MetamaskConnect>
+        <MetamaskConnect
+          isAuthenticated={props.isAuthenticated}
+          isAuthenticating={props.isAuthenticating}
+          user={props.user}
+          authenticate={props.authenticate}
+          logout={props.logout}
+          isLoggingOut={props.isLoggingOut}
+          isLandingPage={false}
+        ></MetamaskConnect>
       </div>
     </nav>
   )
