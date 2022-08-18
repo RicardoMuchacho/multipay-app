@@ -5,7 +5,6 @@ import { useMoralis, useMoralisWeb3Api } from 'react-moralis'
 import { useState, useEffect } from 'react'
 import { BeatLoader } from 'react-spinners'
 import moment from 'moment'
-//const Dashboard: NextPage<{ username: string }> = ({ username }) => {
 
 const Activity = (props) => {
   const [transactions, setTransactions] = useState([])
@@ -46,8 +45,6 @@ const Activity = (props) => {
     fetchTransactions()
   }, [user])
 
-  console.log(transactions)
-
   return (
     <>
       <Navbar
@@ -84,7 +81,7 @@ const Activity = (props) => {
             <div class="min-w-full">
               <table class="my-5 w-full table-auto overflow-scroll">
                 <thead className="text-sm font-extralight text-[#8C8C8C]">
-                  <tr>
+                  <tr className="m-3">
                     <th>Time</th>
                     <th>Type</th>
                     <th>Value</th>
@@ -92,12 +89,12 @@ const Activity = (props) => {
                     <th>Transaction Hash</th>
                   </tr>
                 </thead>
-                <tbody className="border-collapse border-[1px] border-[#D1D1D1] text-center">
+                <tbody className="border-collapse border-y border-[#D1D1D1] text-center">
                   {transactions.map((transaction) => (
                     <>
                       <tr
                         key={transaction.hash}
-                        className="border-[1px] border-[#D1D1D1]"
+                        className="border-y border-[#D1D1D1]"
                       >
                         <td className="whitespace-nowrap px-3 py-1">
                           {moment(transaction.block_timestamp).format(
@@ -137,12 +134,6 @@ const Activity = (props) => {
       <FooterComp></FooterComp>
     </>
   )
-}
-
-export async function getStaticProps() {
-  return {
-    props: { username: 'rick' }, // will be passed to the page component as props
-  }
 }
 
 export default Activity
