@@ -1,29 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useMoralis, useMoralisWeb3Api } from 'react-moralis'
 import Router from 'next/router'
+import { truncateAddress } from '../utils/PerfectFunctions'
 
 export const MetamaskConnect = (props) => {
-  const truncateAddress = (str) => {
-    let str1 = str.slice(0, 4)
-    let str2 = str.slice(-4)
-    let truncatedAddress = str1 + '...' + str2
-    return truncatedAddress
-  }
-
-  // const login = async () => {
-  //   if (!isAuthenticated) {
-  //     await authenticate()
-  //       .then(function (user) {
-  //         console.log(user.get('ethAddress'))
-  //       })
-  //       .catch(function (error) {
-  //         console.log(error)
-  //       })
-  //   } else {
-  //     console.log('Auth')
-  //   }
-  // }
-
   if (!props.isAuthenticated) {
     return (
       <>

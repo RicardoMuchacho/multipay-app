@@ -30,8 +30,13 @@ const HomePage = () => {
       </Head>
       <div id="gradientbg">
         <nav className="flex h-24 w-full flex-row content-center justify-between bg-royal-blue opacity-100">
-          <div className="order-first ml-20 flex">
-            <Image src="/assets/logo.svg" width={25} height={25}></Image>
+          <div className="ml-20 flex">
+            <Image
+              alt="landing page multipay logo"
+              src="/assets/logo.svg"
+              width={25}
+              height={25}
+            ></Image>
             <p className="ml-8 self-center text-2xl text-white">MULTIPAY</p>
           </div>
 

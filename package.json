@@ -19,7 +19,7 @@
     "react-dom": "^17.0.2",
     "react-icons": "^4.4.0",
     "react-moralis": "1.4.0",
-    "react-spinners": "^0.12.0",
+    "react-spinners": "^0.13.4",
     "web3uikit": "^0.1.156"
   },
   "devDependencies": {
