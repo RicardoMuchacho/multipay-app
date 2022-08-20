@@ -1,5 +1,6 @@
 import React from 'react'
 import { AiFillLinkedin, AiFillGithub } from 'react-icons/ai'
+import CustomLink from './CustomLink'
 
 export const FooterComp = () => {
   return (
@@ -8,14 +9,21 @@ export const FooterComp = () => {
         <div className="order-1 flex">
           <ul>
             <li className="mb-1">Contact</li>
+
             <li className="text-sm text-[#7B7E84]">
-              ricardomuchacho.developer@gmail.com
+              <a href="mailto: ricardojrmuchacho@gmail.com">
+                ricardomuchacho.developer@gmail.com
+              </a>
             </li>
             <li className="mt-1">
               <AiFillLinkedin
-                className="h-5 w-5"
+                className="h-5 w-5 hover:cursor-pointer"
                 color="#7B7E84"
-                onClick={() => console.log('H')}
+                onClick={() =>
+                  window.open(
+                    'https://www.linkedin.com/in/ricardo-muchacho-8400171b5/'
+                  )
+                }
               />
             </li>
           </ul>
@@ -23,9 +31,15 @@ export const FooterComp = () => {
         <div className="order-2 flex">
           <ul>
             <li className="mb-1">Services</li>
-            <li className="text-sm text-[#7B7E84]">Dashboard</li>
-            <li className="text-sm text-[#7B7E84]">Multipay</li>
-            <li className="text-sm text-[#7B7E84]">Activity</li>
+            <li className="text-sm text-[#7B7E84]">
+              <CustomLink href={'/dashboard'}>Dashboard</CustomLink>
+            </li>
+            <li className="text-sm text-[#7B7E84]">
+              <CustomLink href={'/multipay'}>Multipay</CustomLink>
+            </li>
+            <li className="text-sm text-[#7B7E84]">
+              <CustomLink href={'/activity'}>Activity</CustomLink>
+            </li>
           </ul>
         </div>
         <div className="order-3 flex">
@@ -39,7 +53,13 @@ export const FooterComp = () => {
           <ul>
             <li className="mb-1">Source Code</li>
             <li>
-              <AiFillGithub className="h-5 w-5" color="#7B7E84" />
+              <AiFillGithub
+                onClick={() =>
+                  window.open('https://github.com/RicardoMuchacho/multipay-app')
+                }
+                className="h-5 w-5 hover:cursor-pointer"
+                color="#7B7E84"
+              />
             </li>
           </ul>
         </div>

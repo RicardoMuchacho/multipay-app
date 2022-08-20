@@ -41,10 +41,10 @@ const HomePage = () => {
 
           <div className="order-last flex">
             <CustomLink
-              className="mr-10 self-center rounded border border-solid border-white p-1 px-2 text-white hover:bg-slate-600"
+              className="mr-5 self-center rounded border border-solid border-white p-1 px-2 text-white hover:bg-slate-600"
               href={'/dashboard'}
             >
-              Dashboard (test)
+              Dashboard
             </CustomLink>
             <button className="self-center rounded border border-solid border-white p-1 px-2 text-white hover:bg-slate-600">
               Buy MPAY
@@ -207,13 +207,19 @@ const HomePage = () => {
               <ul>
                 <li className="mb-1">Contact</li>
                 <li className="text-sm text-[#7B7E84]">
-                  ricardomuchacho.developer@gmail.com
+                  <a href="mailto: ricardojrmuchacho@gmail.com">
+                    ricardomuchacho.developer@gmail.com
+                  </a>
                 </li>
                 <li className="mt-1">
                   <AiFillLinkedin
-                    className="h-5 w-5"
+                    className="h-5 w-5 hover:cursor-pointer"
                     color="#7B7E84"
-                    onClick={() => console.log('H')}
+                    onClick={() =>
+                      window.open(
+                        'https://www.linkedin.com/in/ricardo-muchacho-8400171b5/'
+                      )
+                    }
                   />
                 </li>
               </ul>
@@ -221,9 +227,15 @@ const HomePage = () => {
             <div className="order-2 flex">
               <ul>
                 <li className="mb-1">Services</li>
-                <li className="text-sm text-[#7B7E84]">Dashboard</li>
-                <li className="text-sm text-[#7B7E84]">Multipay</li>
-                <li className="text-sm text-[#7B7E84]">Activity</li>
+                <li className="text-sm text-[#7B7E84]">
+                  <CustomLink href={'/dashboard'}>Dashboard</CustomLink>
+                </li>
+                <li className="text-sm text-[#7B7E84]">
+                  <CustomLink href={'/multipay'}>Multipay</CustomLink>
+                </li>
+                <li className="text-sm text-[#7B7E84]">
+                  <CustomLink href={'/activity'}>Activity</CustomLink>
+                </li>
               </ul>
             </div>
             <div className="order-3 flex">
@@ -237,7 +249,15 @@ const HomePage = () => {
               <ul>
                 <li className="mb-1">Source Code</li>
                 <li>
-                  <AiFillGithub className="h-5 w-5" color="#7B7E84" />
+                  <AiFillGithub
+                    onClick={() =>
+                      window.open(
+                        'https://github.com/RicardoMuchacho/multipay-app'
+                      )
+                    }
+                    className="h-5 w-5 hover:cursor-pointer"
+                    color="#7B7E84"
+                  />
                 </li>
               </ul>
             </div>
