@@ -6,8 +6,6 @@ import { useState } from 'react'
 import Router from 'next/router'
 
 export const Navbar = (props) => {
-  const [active, setActive] = useState(true)
-
   return (
     <nav className="flex h-24 w-full flex-row content-center justify-between bg-royal-blue opacity-100">
       <div className="flex justify-start">
@@ -47,15 +45,7 @@ export const Navbar = (props) => {
         <button className="self-center rounded border border-solid border-white p-1 px-2 text-white hover:bg-slate-600">
           Buy MPAY
         </button>
-        <MetamaskConnect
-          isAuthenticated={props.isAuthenticated}
-          isAuthenticating={props.isAuthenticating}
-          user={props.user}
-          authenticate={props.authenticate}
-          logout={props.logout}
-          isLoggingOut={props.isLoggingOut}
-          isLandingPage={false}
-        ></MetamaskConnect>
+        <MetamaskConnect isLandingPage={false}></MetamaskConnect>
       </div>
     </nav>
   )

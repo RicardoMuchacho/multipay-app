@@ -10,7 +10,7 @@
 
 #earthbg::before {
   content: '';
-  background-image: url('../public/assets/earthbg.jpg');
+  background-image: url('../../public/assets/earthbg.jpg');
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;

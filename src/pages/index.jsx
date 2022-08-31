@@ -10,14 +10,7 @@ import MetamaskConnect from '../components/MetamaskConnect'
 import { AiFillLinkedin, AiFillGithub } from 'react-icons/ai'
 
 const HomePage = () => {
-  const {
-    authenticate,
-    isAuthenticated,
-    isAuthenticating,
-    user,
-    logout,
-    isLoggingOut,
-  } = useMoralis()
+  const { user } = useMoralis()
 
   return (
     <>
@@ -49,15 +42,7 @@ const HomePage = () => {
             <button className="self-center rounded border border-solid border-white p-1 px-2 text-white hover:bg-slate-600">
               Buy MPAY
             </button>
-            <MetamaskConnect
-              isAuthenticated={isAuthenticated}
-              isAuthenticating={isAuthenticating}
-              user={user}
-              authenticate={authenticate}
-              logout={logout}
-              isLoggingOut={isLoggingOut}
-              isLandingPage={true}
-            ></MetamaskConnect>
+            <MetamaskConnect isLandingPage={true}></MetamaskConnect>
           </div>
         </nav>
         <div id="earthbg">

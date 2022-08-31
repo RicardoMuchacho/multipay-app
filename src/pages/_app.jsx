@@ -1,4 +1,5 @@
 import '../styles/globals.css'
+import 'tailwindcss/tailwind.css'
 import { MoralisProvider } from 'react-moralis'
 
 function MyApp({ Component, pageProps }) {

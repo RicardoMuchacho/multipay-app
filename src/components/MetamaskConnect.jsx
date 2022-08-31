@@ -1,18 +1,28 @@
 import React, { useState, useEffect } from 'react'
-import { useMoralis, useMoralisWeb3Api } from 'react-moralis'
+import { useMoralis } from 'react-moralis'
 import Router from 'next/router'
 import { truncateAddress } from '../utils/PerfectFunctions'
 import { AiOutlineUser } from 'react-icons/ai'
 import { TbLogout } from 'react-icons/tb'
 
 export const MetamaskConnect = (props) => {
-  if (!props.isAuthenticated) {
+  const {
+    authenticate,
+    isAuthenticated,
+    isAuthenticating,
+    user,
+    logout,
+    isLoggingOut,
+  } = useMoralis()
+
+  if (!isAuthenticated) {
     return (
       <>
         <button
           className="mr-20 ml-5 inline-flex items-center self-center rounded border border-white p-1 px-2 text-white hover:bg-slate-600"
           onClick={() =>
-            props.authenticate().then(() => {
+            authenticate().then(() => {
+              if (user) setGlobalUser(user)
               if (props.isLandingPage) Router.push('/dashboard')
             })
           }
@@ -40,13 +50,13 @@ export const MetamaskConnect = (props) => {
     <>
       <div className="mr-5 ml-5 inline-flex items-center self-center rounded border border-white p-1 px-2 text-white hover:bg-slate-600">
         <p className="inline-flex items-center gap-1">
-          {truncateAddress(props.user.get('ethAddress'))} <AiOutlineUser />
+          {truncateAddress(user.get('ethAddress'))} <AiOutlineUser />
         </p>
       </div>
       <div className="mr-10 inline-flex items-center self-center rounded border border-white p-1 px-2 text-white hover:bg-slate-600">
         <button
           className="inline-flex items-center gap-2"
-          onClick={() => props.logout()}
+          onClick={() => logout()}
         >
           Logout <TbLogout />
         </button>
