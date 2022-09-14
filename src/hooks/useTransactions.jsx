@@ -31,5 +31,5 @@ export const useTransactions = () => {
     fetchTransactions()
   }, [user])
 
-  return { transactions }
+  return { transactions, loading, fetchTransactions }
 }
