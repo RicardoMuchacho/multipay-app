@@ -9,7 +9,6 @@ import moment from 'moment'
 const Activity = (props) => {
   const [transactions, setTransactions] = useState([])
   const [loading, setLoading] = useState(false)
-  const [address, setAddress] = useState('')
 
   const Web3Api = useMoralisWeb3Api()
   const BaseUrl = 'https://rinkeby.etherscan.io/tx/'
@@ -25,7 +24,6 @@ const Activity = (props) => {
     })
     setLoading(false)
     if (data) {
-      setAddress(user.get('ethAddress'))
       setTransactions(data.result)
     }
   }
@@ -42,7 +40,7 @@ const Activity = (props) => {
     <>
       <Navbar isLandingPage={false}></Navbar>
       <div className="relative h-[550px] w-full bg-[#E5E5E5] p-10">
-        <div className="w-500px h-full rounded-md bg-white py-5 px-10 shadow-md">
+        <div className="w-500px h-full overflow-auto rounded-md bg-white py-5 px-10 shadow-md">
           <div className="flex items-center gap-2">
             <h1 className="text-2xl">Transactions</h1>
             <button className="text-2xl" onClick={() => fetchTransactions()}>
@@ -64,7 +62,7 @@ const Activity = (props) => {
             )
           ) : (
             <div class="min-w-full">
-              <table class="my-5 w-full table-auto overflow-scroll">
+              <table class="my-5 w-full table-auto">
                 <thead className="text-sm font-extralight text-[#8C8C8C]">
                   <tr className="m-3">
                     <th>Time</th>
@@ -87,7 +85,7 @@ const Activity = (props) => {
                           )}
                         </td>
                         <td className="px-3 py-1">
-                          {transaction.from_address == address
+                          {transaction.from_address == user.get('ethAddress')
                             ? 'sent'
                             : 'received'}
                         </td>
