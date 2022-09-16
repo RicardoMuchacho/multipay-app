@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useMoralis } from 'react-moralis'
 import Router from 'next/router'
-import { truncateAddress } from '../utils/PerfectFunctions'
+import { truncateAddress } from '../utils/formatter'
 import { AiOutlineUser } from 'react-icons/ai'
 import { TbLogout } from 'react-icons/tb'
 
