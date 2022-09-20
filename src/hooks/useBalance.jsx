@@ -2,9 +2,8 @@ import { useEffect, useState } from 'react'
 import { useMoralis, useMoralisWeb3Api } from 'react-moralis'
 import { useNativeBalance } from 'react-moralis'
 import { formatNativeBalance } from '../utils/formatter'
-import { NativeBalance } from 'web3uikit'
 
-export const useBalance = (props) => {
+export const useBalance = () => {
   const { account, Web3API } = useMoralisWeb3Api()
   const { user, isInitialized, account: walletAddress } = useMoralis()
 
@@ -30,10 +29,22 @@ export const useBalance = (props) => {
     return await account
       .getTokenBalances({
         address: walletAddress,
-        chain: props?.chain || 'rinkeby',
+        chain: 'rinkeby',
       })
       .then((result) => result)
   }
+
+  const fetchTokenMetadataBySymbol = async () => {
+    //Get metadata for an array of tokens
+    const options = { chain: 'eth', symbols: ['LINK', 'AAVE'] }
+    const tokenArrayMetadata = await Web3API.token.getTokenMetadataBySymbol(
+      options
+    )
+    console.log(tokenArrayMetadata)
+    return tokenArrayMetadata
+  }
+
+  fetchTokenMetadataBySymbol()
 
   return { fetchBalance, assets }
 }

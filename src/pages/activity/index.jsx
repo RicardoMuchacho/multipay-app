@@ -39,13 +39,13 @@ const Activity = (props) => {
           ) : (
             <div class="min-w-full">
               <table class="my-5 w-full table-auto">
-                <thead className="text-sm font-extralight text-[#8C8C8C]">
+                <thead className="text-sm text-[#8C8C8C]">
                   <tr className="m-3">
-                    <th>Time</th>
-                    <th>Type</th>
-                    <th>Value</th>
-                    <th>Status</th>
-                    <th>Transaction Hash</th>
+                    <th className="font-normal">Time</th>
+                    <th className="font-normal">Type</th>
+                    <th className="font-normal">Value</th>
+                    <th className="font-normal">Status</th>
+                    <th className="font-normal">Transaction Hash</th>
                   </tr>
                 </thead>
                 <tbody className="border-collapse border-y border-[#D1D1D1] text-center">

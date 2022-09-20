@@ -6,7 +6,7 @@ export const formatNativeBalance = (balance) => {
     balance: balance,
     decimals: 18,
     logo: null,
-    name: 'Rinkeby ETH',
+    name: 'Rinkeby Ethereum',
     symbol: 'ETH',
   }
   return item

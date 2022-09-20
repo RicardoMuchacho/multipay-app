@@ -14,34 +14,33 @@ const Dashboard = (props) => {
       <div className="relative h-[550px] w-full bg-[#E5E5E5]">
         <div className="grid h-full w-full grid-flow-col grid-cols-3 gap-5 p-8">
           <div className="w-500px col-span-2 row-span-2 h-full rounded-md bg-white p-5 shadow-md">
-            <p>username: {props.username}</p>
-            <div className="rounded-md border border-[#D1D1D1]">
+            <div className="h-full overflow-auto rounded-md  border-[#D1D1D1]">
               {!user ? (
-                <div className="flex h-full justify-center">
-                  <p className="mb-20 place-self-center">
+                <div className="flex h-full place-items-center">
+                  <p className="w-full text-center">
                     No user connected. Connect Wallet
                   </p>
                 </div>
               ) : (
                 <table class="w-full table-auto">
-                  <thead className="text-sm font-extralight text-[#8C8C8C]">
+                  <thead className="text-sm  text-[#8C8C8C]">
                     <tr className="m-3">
-                      <th>Coin</th>
-                      <th>Balance</th>
-                      <th>USD Value</th>
+                      <th className="font-normal">Coin</th>
+                      <th className="font-normal">Balance</th>
+                      <th className="font-normal">USD Value</th>
                       <th></th>
                       <th></th>
                     </tr>
                   </thead>
-                  <tbody className="border-1 border-collapse border-[#D1D1D1] text-center">
+                  <tbody className="border-[#D1D1D1] text-center">
                     {assets?.map((asset) => (
                       <>
                         <tr
                           key={asset.token_address}
                           className="border-y border-[#D1D1D1]"
                         >
-                          <td className="whitespace-nowrap px-3 py-1">
-                            {asset.symbol}
+                          <td className="whitespace-nowrap px-3 py-1 text-left">
+                            {asset.name} ( {asset.symbol} )
                           </td>
                           <td className="px-3 py-1">
                             {roundDown(
@@ -50,6 +49,14 @@ const Dashboard = (props) => {
                             )}
                           </td>
                           <td className="px-3 py-1">Not Ready</td>
+                          <td className="py-1">
+                            <button className="mr-3 rounded-sm border bg-[#ECECEC]  p-0.5 text-sm">
+                              Receive
+                            </button>
+                            <button className="rounded-sm border bg-[#ECECEC] p-0.5 text-sm">
+                              Send
+                            </button>
+                          </td>
                         </tr>
                       </>
                     ))}
