@@ -21,7 +21,7 @@ export const useBalance = () => {
   }, [isInitialized, walletAddress])
 
   const fetchNativeBalance = async () => {
-    const balance = await Web3API.account.getNativeBalance({ chain: 'rinkeby' })
+    const balance = await Web3API.account.getNativeBalance({ chain: 'goerli' })
     return await formatNativeBalance(balance.balance)
   }
 
@@ -29,7 +29,7 @@ export const useBalance = () => {
     return await account
       .getTokenBalances({
         address: walletAddress,
-        chain: 'rinkeby',
+        chain: 'goerli',
       })
       .then((result) => result)
   }

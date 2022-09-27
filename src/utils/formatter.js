@@ -1,12 +1,12 @@
-const rinkebyEthAddress = '0xecB0Cc64e7D5Bd306E1C86E702ba41c4E5B8a161'
+const goerliEthAddress = '0xecB0Cc64e7D5Bd306E1C86E702ba41c4E5B8a161'
 
 export const formatNativeBalance = (balance) => {
   const item = {
-    token_address: rinkebyEthAddress,
+    token_address: goerliEthAddress,
     balance: balance,
     decimals: 18,
     logo: null,
-    name: 'Rinkeby Ethereum',
+    name: 'Goerli Ethereum',
     symbol: 'ETH',
   }
   return item

@@ -6,14 +6,14 @@ export const useTransactions = () => {
   const [loading, setLoading] = useState(false)
 
   const Web3Api = useMoralisWeb3Api()
-  const BaseUrl = 'https://rinkeby.etherscan.io/tx/'
+  const BaseUrl = 'https://goerli.etherscan.io/tx/'
   const { user } = useMoralis()
 
   const fetchTransactions = async () => {
     if (!user) return setTransactions([])
     setLoading(true)
     const data = await Web3Api.account.getTransactions({
-      chain: 'rinkeby',
+      chain: 'goerli',
       address: user.get('ethAddress'),
       limit: 20,
     })

@@ -10,7 +10,7 @@ import { useTransactions } from '../../hooks/useTransactions'
 const Activity = (props) => {
   const { transactions, loading, fetchTransactions } = useTransactions()
   const { user } = useMoralis()
-  const BaseUrl = 'https://rinkeby.etherscan.io/tx/'
+  const BaseUrl = 'https://goerli.etherscan.io/tx/'
 
   return (
     <>
