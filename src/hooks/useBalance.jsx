@@ -6,17 +6,20 @@ import { formatNativeBalance } from '../utils/formatter'
 export const useBalance = () => {
   const { account, Web3API } = useMoralisWeb3Api()
   const { user, isInitialized, account: walletAddress } = useMoralis()
-
+  const [loading, setLoading] = useState(false)
   const [assets, setAssets] = useState()
   const [nativeBalance, setNativeBalance] = useState()
 
   useEffect(async () => {
+    console.log(loading)
     if (isInitialized && user) {
+      setLoading(true)
       var assetsArray = await fetchBalance()
       await fetchNativeBalance().then((nativeBalance) =>
         assetsArray.unshift(nativeBalance)
       )
       setAssets(assetsArray)
+      setLoading(false)
     }
   }, [isInitialized, walletAddress])
 
@@ -34,17 +37,18 @@ export const useBalance = () => {
       .then((result) => result)
   }
 
-  const fetchTokenMetadataBySymbol = async () => {
-    //Get metadata for an array of tokens
-    const options = { chain: 'eth', symbols: ['LINK', 'AAVE'] }
-    const tokenArrayMetadata = await Web3API.token.getTokenMetadataBySymbol(
-      options
-    )
-    console.log(tokenArrayMetadata)
-    return tokenArrayMetadata
-  }
+  // const fetchTokenMetadataBySymbol = async () => {
+  //   //Get metadata for an array of tokens
+  //   const options = { chain: 'eth', symbols: ['LINK', 'AAVE'] }
+  //   const tokenArrayMetadata = await Web3API.token.getTokenMetadataBySymbol(
+  //     options
+  //   )
+  //   console.log(tokenArrayMetadata)
+  //   return tokenArrayMetadata
+  // }
 
-  fetchTokenMetadataBySymbol()
+  // fetchTokenMetadataBySymbol()
+  console.log(assets)
 
-  return { fetchBalance, assets }
+  return { loading, fetchBalance, assets }
 }

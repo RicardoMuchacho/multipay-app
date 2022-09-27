@@ -4,10 +4,10 @@ import FooterComp from '../../components/FooterComp'
 import { useMoralis } from 'react-moralis'
 import { useBalance } from '../../hooks/useBalance'
 import { roundDown } from '../../utils/formatter'
+import { BeatLoader } from 'react-spinners'
 const Dashboard = (props) => {
   const { user } = useMoralis()
-  const { assets, fetchBalance } = useBalance()
-
+  const { assets, loading, fetchBalance } = useBalance()
   return (
     <>
       <Navbar isLandingPage={false}></Navbar>
@@ -15,6 +15,12 @@ const Dashboard = (props) => {
         <div className="grid h-full w-full grid-flow-col grid-cols-3 gap-5 p-8">
           <div className="w-500px col-span-2 row-span-2 h-full rounded-md bg-white p-5 shadow-md">
             <div className="h-full overflow-auto rounded-md  border-[#D1D1D1]">
+              <BeatLoader
+                className="text-center"
+                color="gray"
+                loading={loading}
+              ></BeatLoader>
+
               {!user ? (
                 <div className="flex h-full place-items-center">
                   <p className="w-full text-center">
@@ -50,10 +56,10 @@ const Dashboard = (props) => {
                           </td>
                           <td className="px-3 py-1">Not Ready</td>
                           <td className="py-1">
-                            <button className="mr-3 rounded-sm border bg-[#ECECEC]  p-0.5 text-sm">
+                            <button className="mr-3 rounded-sm border bg-[#ECECEC]  p-0.5 px-1 text-sm hover:bg-slate-200">
                               Receive
                             </button>
-                            <button className="rounded-sm border bg-[#ECECEC] p-0.5 text-sm">
+                            <button className="rounded-sm border bg-[#ECECEC] p-0.5 px-1 text-sm hover:bg-slate-200">
                               Send
                             </button>
                           </td>
