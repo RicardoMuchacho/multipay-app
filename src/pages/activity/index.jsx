@@ -1,15 +1,15 @@
 import Link from 'next/link'
 import Navbar from '../../components/Navbar'
 import FooterComp from '../../components/FooterComp'
-import { useMoralis, useMoralisWeb3Api } from 'react-moralis'
-import { useState, useEffect } from 'react'
+import { useContext, useState, useEffect } from 'react'
+import { AppContext } from '../../AppContext'
 import { BeatLoader } from 'react-spinners'
 import moment from 'moment'
 import { useTransactions } from '../../hooks/useTransactions'
 
 const Activity = (props) => {
   const { transactions, loading, fetchTransactions } = useTransactions()
-  const { user } = useMoralis()
+  const { user, userAddress } = useContext(AppContext)
   const BaseUrl = 'https://goerli.etherscan.io/tx/'
 
   return (
@@ -65,7 +65,9 @@ const Activity = (props) => {
                             ? 'sent'
                             : 'received'}
                         </td>
-                        <td className="px-3 py-1">{transaction.value}</td>
+                        <td className="px-3 py-1">
+                          {transaction.value / 1000000000000000000} ETH
+                        </td>
                         <td className="px-3 py-1">
                           {transaction.receipt_status === '1'
                             ? 'success'

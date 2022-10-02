@@ -1,19 +1,13 @@
-import React, { useState, useEffect } from 'react'
-import { useMoralis } from 'react-moralis'
+import React, { useContext } from 'react'
+import { AppContext } from '../AppContext'
 import Router from 'next/router'
 import { truncateAddress } from '../utils/formatter'
 import { AiOutlineUser } from 'react-icons/ai'
 import { TbLogout } from 'react-icons/tb'
 
 export const MetamaskConnect = (props) => {
-  const {
-    authenticate,
-    isAuthenticated,
-    isAuthenticating,
-    user,
-    logout,
-    isLoggingOut,
-  } = useMoralis()
+  const { authenticate, isAuthenticated, user, logout, userAddress } =
+    useContext(AppContext)
 
   if (!isAuthenticated) {
     return (
@@ -22,7 +16,6 @@ export const MetamaskConnect = (props) => {
           className="mr-20 ml-5 inline-flex items-center self-center rounded border border-white p-1 px-2 text-white hover:bg-slate-600"
           onClick={() =>
             authenticate().then(() => {
-              if (user) setGlobalUser(user)
               if (props.isLandingPage) Router.push('/dashboard')
             })
           }
@@ -50,7 +43,7 @@ export const MetamaskConnect = (props) => {
     <>
       <div className="mr-5 ml-5 inline-flex items-center self-center rounded border border-white p-1 px-2 text-white hover:bg-slate-600">
         <p className="inline-flex items-center gap-1">
-          {truncateAddress(user.get('ethAddress'))} <AiOutlineUser />
+          {truncateAddress(userAddress)} <AiOutlineUser />
         </p>
       </div>
       <div className="mr-10 inline-flex items-center self-center rounded border border-white p-1 px-2 text-white hover:bg-slate-600">

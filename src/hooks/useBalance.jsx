@@ -48,7 +48,6 @@ export const useBalance = () => {
   // }
 
   // fetchTokenMetadataBySymbol()
-  console.log(assets)
 
   return { loading, fetchBalance, assets }
 }

@@ -1,16 +1,17 @@
 import Link from 'next/link'
 import Navbar from '../../components/Navbar'
 import FooterComp from '../../components/FooterComp'
-import { useMoralis } from 'react-moralis'
+import { AppContext } from '../../AppContext'
 import { useBalance } from '../../hooks/useBalance'
 import { roundDown } from '../../utils/formatter'
 import { BeatLoader } from 'react-spinners'
 import { DefaultModal, ReceiveModal } from '../../components/Modals'
 import useModal from '../../hooks/useModal'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 
 const Dashboard = (props) => {
-  const { user } = useMoralis()
+  const { user, userAddress } = useContext(AppContext)
+
   const { assets, loading, fetchBalance } = useBalance()
   const { visibleReceive, hideReceiveModal, openReceiveModal } = useModal()
   const [token, setToken] = useState('')
@@ -66,8 +67,8 @@ const Dashboard = (props) => {
                           <td className="px-3 py-1">Not Ready</td>
                           <td className="py-1">
                             <button
-                              onClick={async () => {
-                                await setToken(asset.name)
+                              onClick={() => {
+                                setToken(asset.name)
                                 openReceiveModal()
                               }}
                               className="mr-3 rounded-sm border bg-[#ECECEC]  p-0.5 px-1 text-sm hover:bg-slate-200"
@@ -92,7 +93,7 @@ const Dashboard = (props) => {
           <ReceiveModal
             visible={visibleReceive}
             hide={hideReceiveModal}
-            address={user.get('ethAddress')}
+            address={userAddress}
             token={token}
           ></ReceiveModal>
         </div>
@@ -100,12 +101,6 @@ const Dashboard = (props) => {
       <FooterComp></FooterComp>
     </>
   )
-}
-
-export async function getStaticProps() {
-  return {
-    props: { username: 'rick' }, // will be passed to the page component as props
-  }
 }
 
 export default Dashboard
