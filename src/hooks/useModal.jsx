@@ -3,6 +3,7 @@ import { useState } from 'react'
 const useModal = () => {
   const [visibleReceive, setVisibleReceive] = useState('none')
   const [visibleSend, setVisibleSend] = useState('none')
+  const [visibleBuy, setVisibleBuy] = useState('none')
 
   function openReceiveModal() {
     setVisibleReceive('block')
@@ -20,13 +21,24 @@ const useModal = () => {
     setVisibleSend('none')
   }
 
+  function openBuyModal() {
+    setVisibleBuy('block')
+  }
+
+  function hideBuyModal() {
+    setVisibleBuy('none')
+  }
+
   return {
     visibleReceive,
     visibleSend,
+    visibleBuy,
     openReceiveModal,
     hideReceiveModal,
     openSendModal,
     hideSendModal,
+    openBuyModal,
+    hideBuyModal,
   }
 }
 

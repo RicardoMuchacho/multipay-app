@@ -5,7 +5,7 @@ import { AppContext } from '../../AppContext'
 import { useBalance } from '../../hooks/useBalance'
 import { roundDown } from '../../utils/formatter'
 import { BeatLoader } from 'react-spinners'
-import { DefaultModal, ReceiveModal } from '../../components/Modals'
+import { ReceiveModal, BuyModal, SendModal } from '../../components/Modals'
 import useModal from '../../hooks/useModal'
 import { useContext, useState } from 'react'
 
@@ -13,13 +13,23 @@ const Dashboard = (props) => {
   const { user, userAddress } = useContext(AppContext)
 
   const { assets, loading, fetchBalance } = useBalance()
-  const { visibleReceive, hideReceiveModal, openReceiveModal } = useModal()
+  const {
+    visibleReceive,
+    hideReceiveModal,
+    openReceiveModal,
+    visibleSend,
+    openSendModal,
+    hideSendModal,
+    visibleBuy,
+    hideBuyModal,
+    openBuyModal,
+  } = useModal()
   const [token, setToken] = useState('')
 
   return (
     <>
-      <Navbar isLandingPage={false}></Navbar>
-      <div className="relative h-[550px] w-full bg-[#E5E5E5]">
+      <Navbar buy={openBuyModal} isLandingPage={false}></Navbar>
+      <div className="relative h-[550px] w-full overflow-auto bg-[#E5E5E5]">
         <div className="grid h-full w-full grid-flow-col grid-cols-3 gap-5 p-8">
           <div className="w-500px col-span-2 row-span-2 h-full rounded-md bg-white p-5 shadow-md">
             <div className="h-full overflow-auto rounded-md  border-[#D1D1D1]">
@@ -38,7 +48,7 @@ const Dashboard = (props) => {
                   </p>
                 </div>
               ) : (
-                <table class="w-full table-auto">
+                <table className="w-full table-auto">
                   <thead className="text-sm  text-[#8C8C8C]">
                     <tr className="m-3">
                       <th className="font-normal">Coin</th>
@@ -96,6 +106,7 @@ const Dashboard = (props) => {
             address={userAddress}
             token={token}
           ></ReceiveModal>
+          <BuyModal visible={visibleBuy} hide={hideBuyModal}></BuyModal>
         </div>
       </div>
       <FooterComp></FooterComp>

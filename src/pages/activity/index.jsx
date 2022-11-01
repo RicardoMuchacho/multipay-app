@@ -6,15 +6,18 @@ import { AppContext } from '../../AppContext'
 import { BeatLoader } from 'react-spinners'
 import moment from 'moment'
 import { useTransactions } from '../../hooks/useTransactions'
+import { BuyModal } from '../../components/Modals'
+import useModal from '../../hooks/useModal'
 
 const Activity = (props) => {
   const { transactions, loading, fetchTransactions } = useTransactions()
   const { user, userAddress } = useContext(AppContext)
   const BaseUrl = 'https://goerli.etherscan.io/tx/'
+  const { visibleBuy, hideBuyModal, openBuyModal } = useModal()
 
   return (
     <>
-      <Navbar isLandingPage={false}></Navbar>
+      <Navbar buy={openBuyModal} isLandingPage={false}></Navbar>
       <div className="relative h-[550px] w-full bg-[#E5E5E5] p-10">
         <div className="w-500px h-full overflow-auto rounded-md bg-white py-5 px-10 shadow-md">
           <div className="flex items-center gap-2">
@@ -90,6 +93,7 @@ const Activity = (props) => {
               </table>
             </div>
           )}
+          <BuyModal visible={visibleBuy} hide={hideBuyModal}></BuyModal>
         </div>
       </div>
       <FooterComp></FooterComp>

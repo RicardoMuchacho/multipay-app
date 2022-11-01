@@ -6,19 +6,25 @@ import { AiOutlineUser } from 'react-icons/ai'
 import { TbLogout } from 'react-icons/tb'
 
 export const MetamaskConnect = (props) => {
-  const { authenticate, isAuthenticated, user, logout, userAddress } =
-    useContext(AppContext)
+  const {
+    enableWeb3,
+    authenticate,
+    isAuthenticated,
+    user,
+    logout,
+    userAddress,
+  } = useContext(AppContext)
 
   if (!isAuthenticated) {
     return (
       <>
         <button
           className="mr-20 ml-5 inline-flex items-center self-center rounded border border-white p-1 px-2 text-white hover:bg-slate-600"
-          onClick={() =>
-            authenticate().then(() => {
-              if (props.isLandingPage) Router.push('/dashboard')
-            })
-          }
+          onClick={async () => {
+            await enableWeb3()
+            await authenticate()
+            if (props.isLandingPage) Router.push('/dashboard')
+          }}
         >
           <svg
             className="mr-2 h-4 w-4"
