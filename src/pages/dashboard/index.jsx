@@ -12,7 +12,7 @@ import { useContext, useState } from 'react'
 const Dashboard = (props) => {
   const { user, userAddress } = useContext(AppContext)
 
-  const { assets, loading, fetchBalance } = useBalance()
+  const { assets, loading, getUserBalance } = useBalance()
   const {
     visibleReceive,
     hideReceiveModal,
@@ -24,22 +24,28 @@ const Dashboard = (props) => {
     hideBuyModal,
     openBuyModal,
   } = useModal()
-  const [token, setToken] = useState('')
+  const [token, setToken] = useState({})
 
   return (
     <>
       <Navbar buy={openBuyModal} isLandingPage={false}></Navbar>
       <div className="relative h-[550px] w-full overflow-auto bg-[#E5E5E5]">
-        <div className="grid h-full w-full grid-flow-col grid-cols-3 gap-5 p-8">
-          <div className="w-500px col-span-2 row-span-2 h-full rounded-md bg-white p-5 shadow-md">
-            <div className="h-full overflow-auto rounded-md  border-[#D1D1D1]">
-              {user && (
-                <BeatLoader
-                  className="text-center"
-                  color="gray"
-                  loading={loading}
-                ></BeatLoader>
-              )}
+        <div className="grid h-full w-full grid-flow-col grid-cols-3 gap-5 p-10">
+          <div className="w-500px col-span-2 row-span-2 h-full rounded-md bg-white shadow-md">
+            <div className="h-full overflow-auto rounded-md  border-[#D1D1D1] py-5 px-10 ">
+              <div className="mb-2 flex items-center gap-2">
+                <h1 className="text-2xl">Portofolio</h1>
+                <button className="text-2xl" onClick={() => getUserBalance()}>
+                  &#128259;
+                </button>
+                {user && (
+                  <BeatLoader
+                    className="text-center"
+                    color="gray"
+                    loading={loading}
+                  ></BeatLoader>
+                )}
+              </div>
 
               {!user ? (
                 <div className="flex h-full place-items-center">
@@ -78,14 +84,22 @@ const Dashboard = (props) => {
                           <td className="py-1">
                             <button
                               onClick={() => {
-                                setToken(asset.name)
+                                setToken(asset)
                                 openReceiveModal()
                               }}
                               className="mr-3 rounded-sm border bg-[#ECECEC]  p-0.5 px-1 text-sm hover:bg-slate-200"
                             >
                               Receive
                             </button>
-                            <button className="rounded-sm border bg-[#ECECEC] p-0.5 px-1 text-sm hover:bg-slate-200">
+                            <button
+                              onClick={() => {
+                                console.log(asset)
+
+                                setToken(asset)
+                                openSendModal()
+                              }}
+                              className="rounded-sm border bg-[#ECECEC] p-0.5 px-1 text-sm hover:bg-slate-200"
+                            >
                               Send
                             </button>
                           </td>
@@ -104,9 +118,17 @@ const Dashboard = (props) => {
             visible={visibleReceive}
             hide={hideReceiveModal}
             address={userAddress}
-            token={token}
+            token={token.name}
           ></ReceiveModal>
           <BuyModal visible={visibleBuy} hide={hideBuyModal}></BuyModal>
+          <SendModal
+            token={token.name}
+            balance={token.balance}
+            decimals={token.decimals}
+            contract={token.token_address}
+            visible={visibleSend}
+            hide={hideSendModal}
+          ></SendModal>
         </div>
       </div>
       <FooterComp></FooterComp>

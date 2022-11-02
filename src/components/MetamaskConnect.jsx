@@ -55,7 +55,10 @@ export const MetamaskConnect = (props) => {
       <div className="mr-10 inline-flex items-center self-center rounded border border-white p-1 px-2 text-white hover:bg-slate-600">
         <button
           className="inline-flex items-center gap-2"
-          onClick={() => logout()}
+          onClick={async () => {
+            await logout()
+            Router.push('/')
+          }}
         >
           Logout <TbLogout />
         </button>

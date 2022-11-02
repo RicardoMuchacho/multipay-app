@@ -1,9 +1,11 @@
 import React from 'react'
 import { AppContext } from '../AppContext'
 import { useContext, useRef } from 'react'
-import { BeatLoader } from 'react-spinners'
+import { GridLoader } from 'react-spinners'
+import { roundDown } from '../utils/formatter'
 
 export const DefaultModal = (props) => {
+  const { setTsxLink, setErrorMsg } = useContext(AppContext)
   return (
     <>
       <div
@@ -13,7 +15,11 @@ export const DefaultModal = (props) => {
         <div className="flex h-full w-full justify-center bg-slate-500 bg-opacity-40">
           <div className="h-250 absolute -mt-10 w-auto self-center rounded-lg border border-gray-200 bg-white p-3 shadow-md">
             <button
-              onClick={props.hide}
+              onClick={() => {
+                props.hide()
+                setTsxLink(null)
+                setErrorMsg(null)
+              }}
               className="absolute top-0 right-0 rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 "
             >
               <svg
@@ -66,80 +72,151 @@ export const ReceiveModal = (props) => {
 }
 
 export const SendModal = (props) => {
+  const amountRef = useRef()
+  const addressRef = useRef()
+
+  const currentBalance = roundDown(
+    props.balance / Math.pow(10, props.decimals),
+    3
+  )
+
+  const { transferTokens, isLoading, tsxLink, setTsxLink, errorMsg } =
+    useContext(AppContext)
   return (
     <DefaultModal visible={props.visible} hide={props.hide}>
-      <div className="p-3">
-        <div className="text-center">
-          <p>Copy and send this address to receive {props.token}</p>
+      {isLoading ? (
+        <>
+          <div className="flex h-[90px] place-items-center justify-center">
+            <GridLoader
+              className="text-center"
+              color="gray"
+              loading={isLoading}
+            ></GridLoader>
+          </div>
+          <p className="p-2 text-center">
+            Transaction in progress, wait a moment!
+          </p>
+        </>
+      ) : (
+        <div className="p-3">
+          <div className="text-center">
+            <p className="pb-2 font-semibold">
+              Select address to send {props.token}
+            </p>
+            <p className="text-gray-500">Current Balance = {currentBalance}</p>
+          </div>
+          <p className="pt-2 text-gray-500">Address:</p>
+          <input
+            className="mb-3 w-full rounded-md border px-1 text-center"
+            type="text"
+            ref={addressRef}
+          />
+          <p className="text-gray-500">Amount:</p>
+          <input
+            className="mb-3 w-full rounded-md border px-1 text-center"
+            type="number"
+            min="0"
+            max={currentBalance}
+            ref={amountRef}
+          />
+
+          <div className="flex justify-center">
+            <button
+              onClick={() => {
+                setTsxLink(null)
+                transferTokens(
+                  amountRef.current.value,
+                  addressRef.current.value,
+                  props.contract,
+                  props.decimals
+                )
+              }}
+              className="mb-2 rounded-lg bg-blue-700 px-5 py-1 text-sm font-medium text-white hover:bg-blue-800"
+            >
+              Send
+            </button>
+          </div>
+          {errorMsg && <p className="text-center">{errorMsg}</p>}
+
+          {tsxLink && (
+            <>
+              <div className="text-center">
+                <p className="text-gray-500">Transaction Completed!</p>
+
+                <a
+                  className=" text-blue-600 hover:underline"
+                  href={tsxLink}
+                  target="_blank"
+                >
+                  Check tsx status on etherscan
+                </a>
+              </div>
+            </>
+          )}
         </div>
-        <div className="flex items-center space-x-2 rounded-b border-gray-200 p-6 dark:border-gray-600">
-          <button className="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-            I accept
-          </button>
-          <button className="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:z-10 focus:outline-none focus:ring-4 focus:ring-blue-300">
-            Decline
-          </button>
-        </div>
-      </div>
+      )}
     </DefaultModal>
   )
 }
 
 export const BuyModal = (props) => {
-  const { buyTokens2, buyTokens, isLoading, tsxLink, setTsxLink } =
-    useContext(AppContext)
   const amountRef = useRef()
+  const { buyTokens, isLoading, tsxLink, setTsxLink, errorMsg } =
+    useContext(AppContext)
 
   return (
     <DefaultModal visible={props.visible} hide={props.hide}>
-      <div className="p-3">
-        <div className="text-center">
-          <p className="pb-2 font-semibold">Buy MPAY Tokens {props.token}</p>
-        </div>
-        <p className="py-0 text-gray-500">Rate: 0.001 ETH = 1 MPAY</p>
-        <p className="pt-2 text-gray-500">Amount:</p>
-        <input
-          id="mpayAmount"
-          className="mb-3 rounded-md border px-1 text-center"
-          type="number"
-          min="1"
-          ref={amountRef}
-        />
+      {isLoading ? (
+        <>
+          <div className="flex h-[90px] place-items-center justify-center">
+            <GridLoader
+              className="text-center"
+              color="gray"
+              loading={isLoading}
+            ></GridLoader>
+          </div>
+          <p className="p-2 text-center">
+            Transaction in progress, wait a moment!
+          </p>
+        </>
+      ) : (
+        <div className="w-[250px] p-3">
+          <div className="text-center">
+            <p className="pb-2 font-semibold">Buy MPAY Tokens {props.token}</p>
+          </div>
+          <p className="py-0 text-gray-500">Rate: 0.001 ETH = 1 MPAY</p>
+          <p className="pt-2 text-gray-500">Amount:</p>
+          <input
+            id="mpayAmount"
+            className="mb-3 w-full rounded-md border px-1 text-center"
+            type="number"
+            min="1"
+            ref={amountRef}
+          />
 
-        <div className="flex-col justify-center">
-          {isLoading ? (
-            <>
-              <BeatLoader
-                className="text-center"
-                color="gray"
-                loading={isLoading}
-              ></BeatLoader>
-              <p className="text-center">
-                Transaction in progress, wait a moment!
-              </p>
-            </>
-          ) : (
+          <div className="flex justify-center">
             <button
               onClick={() => {
                 setTsxLink(null)
-                buyTokens2(amountRef.current.value)
+                buyTokens(amountRef.current.value)
               }}
-              className="block rounded-lg bg-blue-700 px-5 py-1 text-sm font-medium text-white hover:bg-blue-800"
+              className="mb-2 rounded-lg bg-blue-700 px-5 py-1 text-sm font-medium text-white hover:bg-blue-800"
             >
               Buy
             </button>
+          </div>
+          {errorMsg && <p className="text-center">{errorMsg}</p>}
+          {tsxLink && (
+            <a
+              className="text-center text-blue-600 hover:underline"
+              href={tsxLink}
+              target="_blank"
+            >
+              Check tsx status on etherscan
+            </a>
           )}
         </div>
-        {tsxLink && (
-          <a
-            className="text-center text-blue-600 hover:underline"
-            href={tsxLink}
-            target="_blank"
-          >
-            Completed!, Check on etherscan
-          </a>
-        )}
-      </div>
+      )}
     </DefaultModal>
   )
 }

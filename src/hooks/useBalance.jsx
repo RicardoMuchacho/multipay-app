@@ -11,16 +11,7 @@ export const useBalance = () => {
   const [nativeBalance, setNativeBalance] = useState()
 
   useEffect(async () => {
-    console.log(loading)
-    if (isInitialized && user) {
-      setLoading(true)
-      var assetsArray = await fetchBalance()
-      await fetchNativeBalance().then((nativeBalance) =>
-        assetsArray.unshift(nativeBalance)
-      )
-      setAssets(assetsArray)
-      setLoading(false)
-    }
+    getUserBalance()
   }, [isInitialized, walletAddress])
 
   const fetchNativeBalance = async () => {
@@ -37,6 +28,18 @@ export const useBalance = () => {
       .then((result) => result)
   }
 
+  const getUserBalance = async () => {
+    if (isInitialized && user) {
+      setLoading(true)
+      var assetsArray = await fetchBalance()
+      await fetchNativeBalance().then((nativeBalance) =>
+        assetsArray.unshift(nativeBalance)
+      )
+      setAssets(assetsArray)
+      setLoading(false)
+    }
+  }
+
   // const fetchTokenMetadataBySymbol = async () => {
   //   //Get metadata for an array of tokens
   //   const options = { chain: 'eth', symbols: ['LINK', 'AAVE'] }
@@ -49,5 +52,5 @@ export const useBalance = () => {
 
   // fetchTokenMetadataBySymbol()
 
-  return { loading, fetchBalance, assets }
+  return { loading, getUserBalance, assets }
 }

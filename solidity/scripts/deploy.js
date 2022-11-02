@@ -18,5 +18,5 @@ main()
 
 //npx hardhat run --network goerli scripts/deploy.js
 
-//verify contract script (with owners address):
-//npx hardhat verify --network goerli 0xecB0Cc64e7D5Bd306E1C86E702ba41c4E5B8a161
+//verify contract script:
+//npx hardhat verify --network goerli 0x7958Fdc6c2c958146fA1BB91Ae359403eC1e7B06
