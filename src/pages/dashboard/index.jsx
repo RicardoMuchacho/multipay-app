@@ -10,9 +10,10 @@ import useModal from '../../hooks/useModal'
 import { useContext, useState } from 'react'
 
 const Dashboard = (props) => {
-  const { user, userAddress } = useContext(AppContext)
+  const { user, userAddress, assets, loading, getUserBalance } =
+    useContext(AppContext)
 
-  const { assets, loading, getUserBalance } = useBalance()
+  // const { assets, loading, getUserBalance } = useBalance()
   const {
     visibleReceive,
     hideReceiveModal,

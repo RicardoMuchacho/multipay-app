@@ -8,15 +8,17 @@ import { useBalance } from './hooks/useBalance'
 export const AppContext = createContext()
 
 export const AppProvider = ({ children }) => {
+  const { assets, loading, fetchBalance, getUserBalance } = useBalance()
+
   const [username, setUsername] = useState('')
   const [userAddress, setUserAddress] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [tsxLink, setTsxLink] = useState(null)
   const [errorMsg, setErrorMsg] = useState(null)
+  const [multipayErr, setMultipayErr] = useState(null)
+  const [mpayBalance, setMpayBalance] = useState(null)
 
   const testnet = 'goerli'
-
-  const { assets, loading, fetchBalance } = useBalance()
 
   const {
     authenticate,
@@ -108,6 +110,49 @@ export const AppProvider = ({ children }) => {
       setIsLoading(false)
     }
   }
+
+  //0xc717879FBc3EA9F770c0927374ed74A998A3E2Ce
+  const multiTransfer = async (addresses, amounts) => {
+    setMultipayErr(null)
+    let validAddresses = true
+    let validAmounts = true
+
+    if (!addresses || !amounts) {
+      return setMultipayErr('ERROR - missing data')
+    }
+    let addressArray = addresses.split('\n')
+    let amountArray = amounts.split('\n')
+
+    addressArray.forEach((element) => {
+      if (element.length < 4) {
+        validAddresses = false
+        setMultipayErr('ERROR - Invalid address')
+      }
+      if (!element.startsWith('0x')) {
+        validAddresses = false
+        setMultipayErr('ERROR - Addresses must start with 0x')
+      }
+    })
+
+    console.log(addressArray)
+    if (validAddresses == false) return
+
+    amountArray.forEach((element, i) => {
+      amountArray[i] = parseFloat(element)
+      console.log(element)
+      if (typeof element != 'number') {
+        validAmounts = false
+        setMultipayErr('ERROR - Invalid Amounts')
+      }
+    })
+    console.log(amountArray)
+    if (validAmounts == false) return
+
+    if (amountArray.length != addressArray.length) {
+      return setMultipayErr('ERROR - Addresses and amounts are not equal')
+    }
+  }
+
   //set context user data
   useEffect(async () => {
     if (isAuthenticated) {
@@ -115,6 +160,9 @@ export const AppProvider = ({ children }) => {
       setUsername(currentUsername)
       const address = await user?.get('ethAddress')
       setUserAddress(address)
+      await getUserBalance()
+      setMpayBalance(assets?.filter((i) => i.symbol == 'MPAY')[0].balance)
+      console.log(mpayBalance)
     }
   }, [isAuthenticated, authenticate, userAddress, setUsername, user, username])
 
@@ -140,6 +188,12 @@ export const AppProvider = ({ children }) => {
         transferTokens,
         errorMsg,
         setErrorMsg,
+        mpayBalance,
+        multiTransfer,
+        multipayErr,
+        getUserBalance,
+        assets,
+        loading,
       }}
     >
       {children}
