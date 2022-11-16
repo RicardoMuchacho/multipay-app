@@ -1,12 +1,19 @@
 const hre = require('hardhat')
 
 async function main() {
-  const multipayTokenFactory = await hre.ethers.getContractFactory('Multipay')
-  const multipayToken = await multipayTokenFactory.deploy()
+  // const multipayTokenFactory = await hre.ethers.getContractFactory('Multipay')
+  // const multipayToken = await multipayTokenFactory.deploy()
 
-  await multipayToken.deployed()
+  // await multipayToken.deployed()
 
-  console.log('Multipay Token deployed to:', multipayToken.address)
+  // console.log('Multipay Token deployed to:', multipayToken.address)
+
+  const multipaymentContract = await hre.ethers.getContractFactory('Multipayment')
+  const multipayment = await multipaymentContract.deploy()
+
+  await multipayment.deployed()
+
+  console.log('Multipayment contract deployed to:', multipayment.address)
 }
 
 main()

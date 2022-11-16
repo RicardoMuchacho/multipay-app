@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-// authot: @rickmuch
+// author: @rickmuch
 pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
