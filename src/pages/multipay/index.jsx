@@ -5,13 +5,19 @@ import { useContext, useState, useRef } from 'react'
 import { AppContext } from '../../AppContext'
 import { BuyModal } from '../../components/Modals'
 import useModal from '../../hooks/useModal'
+import { BeatLoader } from 'react-spinners'
 
 const Multipay = (props) => {
-  const { user, userAddress, mpayBalance, multiTransfer, multipayErr } =
-    useContext(AppContext)
+  const {
+    user,
+    userAddress,
+    mpayBalance,
+    multiTransfer,
+    multipayErr,
+    isLoading,
+  } = useContext(AppContext)
   const { hideBuyModal, visibleBuy, openBuyModal } = useModal()
   const [transferToken, setTransferToken] = useState('ETH')
-  const [disabled, setDisabled] = useState(false)
   const addresses = useRef()
   const amounts = useRef()
 
@@ -20,7 +26,7 @@ const Multipay = (props) => {
       <Navbar buy={openBuyModal} isLandingPage={false}></Navbar>
 
       <div className="relative h-[650px] w-full bg-[#E5E5E5] p-10">
-        <div className="w-500px h-full overflow-auto rounded-md bg-white py-10 px-10 shadow-md">
+        <div className="w-500px h-full overflow-auto rounded-md bg-white py-6 px-10 shadow-md">
           <div className="mx-20">
             <p className=" mb-1 text-center text-2xl font-medium">
               Multipayment Feature
@@ -44,7 +50,7 @@ const Multipay = (props) => {
             </label>
 
             <select
-              className="mx-2 rounded-md border text-center"
+              className="mx-2 w-16 rounded-md border text-center"
               name="token"
               id="tokenid"
               defaultValue={transferToken}
@@ -53,7 +59,9 @@ const Multipay = (props) => {
               }}
             >
               <option value="ETH">ETH</option>
-              <option value="USDC">USDC</option>
+              <option disabled value="USDC">
+                USDC - Coming Soon!
+              </option>
             </select>
           </div>
           {mpayBalance > 10 ? (
@@ -80,18 +88,25 @@ const Multipay = (props) => {
                 ></textarea>
               </div>
               <div className="flex justify-center">
-                <button
-                  disabled={disabled}
-                  onClick={() =>
-                    multiTransfer(
-                      addresses.current.value,
-                      amounts.current.value
-                    )
-                  }
-                  className="text-md rounded-sm border bg-[#ECECEC] py-1 px-2 hover:bg-slate-200 disabled:bg-slate-400"
-                >
-                  Transfer
-                </button>
+                {isLoading ? (
+                  <BeatLoader
+                    className="text-center"
+                    color="gray"
+                    loading={isLoading}
+                  ></BeatLoader>
+                ) : (
+                  <button
+                    onClick={() =>
+                      multiTransfer(
+                        addresses.current.value,
+                        amounts.current.value
+                      )
+                    }
+                    className="text-md rounded-sm border bg-[#ECECEC] py-1 px-2 hover:bg-slate-200 disabled:bg-slate-400"
+                  >
+                    Transfer
+                  </button>
+                )}
               </div>
               {multipayErr && <p className="mt-1 text-center">{multipayErr}</p>}
             </>

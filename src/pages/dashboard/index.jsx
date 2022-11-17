@@ -10,8 +10,9 @@ import useModal from '../../hooks/useModal'
 import { useContext, useState } from 'react'
 
 const Dashboard = (props) => {
-  const { user, userAddress, assets, loading, getUserBalance } =
+  const { user, setMpayBalance, userAddress, assets, loading, getUserBalance } =
     useContext(AppContext)
+  setMpayBalance(assets?.filter((i) => i.symbol == 'MPAY')[0].balance)
 
   // const { assets, loading, getUserBalance } = useBalance()
   const {

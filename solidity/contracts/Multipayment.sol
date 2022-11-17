@@ -54,7 +54,7 @@ contract Multipayment {
     }
     
     // multiple withdrawals in one
-    function withdrawls(address payable[] memory addrs, uint[] memory amnts) payable public isOwner {
+    function withdrawls(address payable[] memory addrs, uint[] memory amnts) payable public {
         total_value += msg.value;
         
         // the addresses and amounts should be same in length

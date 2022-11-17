@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useMoralis, useMoralisWeb3Api } from 'react-moralis'
-import { useNativeBalance } from 'react-moralis'
 import { formatNativeBalance } from '../utils/formatter'
 
 export const useBalance = () => {
@@ -8,7 +7,6 @@ export const useBalance = () => {
   const { user, isInitialized, account: walletAddress } = useMoralis()
   const [loading, setLoading] = useState(false)
   const [assets, setAssets] = useState()
-  const [nativeBalance, setNativeBalance] = useState()
 
   useEffect(async () => {
     getUserBalance()

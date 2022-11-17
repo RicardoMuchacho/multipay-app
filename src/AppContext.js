@@ -1,14 +1,19 @@
 import React from 'react'
 import { createContext, useState, useEffect } from 'react'
 import { useMoralis, useWeb3Transfer } from 'react-moralis'
-import { multipayAbi, multipayContract } from './utils/constants'
-import { ethers } from 'ethers'
+import {
+  multipayAbi,
+  multipayContract,
+  multipaymentAbi,
+  multipaymentContract,
+} from './utils/constants'
+import { BigNumber, ethers } from 'ethers'
 import { useBalance } from './hooks/useBalance'
 
 export const AppContext = createContext()
 
 export const AppProvider = ({ children }) => {
-  const { assets, loading, fetchBalance, getUserBalance } = useBalance()
+  const { assets, loading, getUserBalance } = useBalance()
 
   const [username, setUsername] = useState('')
   const [userAddress, setUserAddress] = useState('')
@@ -112,10 +117,19 @@ export const AppProvider = ({ children }) => {
   }
 
   //0xc717879FBc3EA9F770c0927374ed74A998A3E2Ce
+  //0xecB0Cc64e7D5Bd306E1C86E702ba41c4E5B8a161
   const multiTransfer = async (addresses, amounts) => {
+    if (!isAuthenticated) {
+      await enableWeb3()
+      await connectWallet()
+    }
+    if (!isWeb3Enabled) {
+      await enableWeb3()
+    }
     setMultipayErr(null)
     let validAddresses = true
     let validAmounts = true
+    var totalAmount = 0
 
     if (!addresses || !amounts) {
       return setMultipayErr('ERROR - missing data')
@@ -138,18 +152,46 @@ export const AppProvider = ({ children }) => {
     if (validAddresses == false) return
 
     amountArray.forEach((element, i) => {
-      amountArray[i] = parseFloat(element)
-      console.log(element)
-      if (typeof element != 'number') {
+      if (isNaN(parseFloat(amountArray[i]))) {
         validAmounts = false
         setMultipayErr('ERROR - Invalid Amounts')
+      } else {
+        totalAmount += parseFloat(amountArray[i])
+        let gwei = Moralis.Units.Token(parseFloat(element, 18))
+        console.log(gwei + 'll')
+        amountArray[i] = BigNumber.from(gwei)
       }
     })
-    console.log(amountArray)
+    console.log(amountArray, totalAmount)
     if (validAmounts == false) return
 
     if (amountArray.length != addressArray.length) {
       return setMultipayErr('ERROR - Addresses and amounts are not equal')
+    }
+
+    let options = {
+      abi: multipaymentAbi,
+      contractAddress: multipaymentContract,
+      functionName: 'withdrawls',
+      msgValue: Moralis.Units.ETH(totalAmount),
+
+      params: {
+        withdrawls: Moralis.Units.ETH(totalAmount),
+        addrs: addressArray,
+        amnts: amountArray,
+      },
+    }
+    setIsLoading(true)
+    try {
+      const transaction = await Moralis.executeFunction(options)
+      const result = await transaction.wait()
+      console.log(transaction)
+      setMultipayErr(`Successful transaction!`)
+      setIsLoading(false)
+    } catch (error) {
+      setMultipayErr('Transaction failed!')
+      console.log(error)
+      setIsLoading(false)
     }
   }
 
@@ -189,6 +231,7 @@ export const AppProvider = ({ children }) => {
         errorMsg,
         setErrorMsg,
         mpayBalance,
+        setMpayBalance,
         multiTransfer,
         multipayErr,
         getUserBalance,
