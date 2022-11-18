@@ -8,10 +8,18 @@ import { BeatLoader } from 'react-spinners'
 import { ReceiveModal, BuyModal, SendModal } from '../../components/Modals'
 import useModal from '../../hooks/useModal'
 import { useContext, useState } from 'react'
+import { TestChart } from '../../components/TestChart'
 
 const Dashboard = (props) => {
-  const { user, setMpayBalance, userAddress, assets, loading, getUserBalance } =
-    useContext(AppContext)
+  const {
+    isAuthenticated,
+    user,
+    setMpayBalance,
+    userAddress,
+    assets,
+    loading,
+    getUserBalance,
+  } = useContext(AppContext)
   setMpayBalance(assets?.filter((i) => i.symbol == 'MPAY')[0].balance)
 
   // const { assets, loading, getUserBalance } = useBalance()
@@ -28,6 +36,8 @@ const Dashboard = (props) => {
   } = useModal()
   const [token, setToken] = useState({})
 
+  console.log(isAuthenticated)
+
   return (
     <>
       <Navbar buy={openBuyModal} isLandingPage={false}></Navbar>
@@ -40,7 +50,7 @@ const Dashboard = (props) => {
                 <button className="text-2xl" onClick={() => getUserBalance()}>
                   &#128259;
                 </button>
-                {user && (
+                {loading && (
                   <BeatLoader
                     className="text-center"
                     color="gray"
@@ -49,7 +59,7 @@ const Dashboard = (props) => {
                 )}
               </div>
 
-              {!user ? (
+              {!isAuthenticated ? (
                 <div className="flex h-full place-items-center">
                   <p className="w-full text-center">
                     No user connected. Connect Wallet
@@ -114,8 +124,12 @@ const Dashboard = (props) => {
             </div>
           </div>
 
-          <div className="h-50%  relative w-full rounded-md bg-white p-5 shadow-md"></div>
-          <div className="h-50%  relative w-full rounded-md bg-white p-5 shadow-md"></div>
+          <div className="h-50%  relative w-full rounded-md bg-white p-5 shadow-md">
+            <TestChart></TestChart>
+          </div>
+          <div className="h-50%  relative w-full rounded-md bg-white p-5 shadow-md">
+            <TestChart></TestChart>
+          </div>
           <ReceiveModal
             visible={visibleReceive}
             hide={hideReceiveModal}

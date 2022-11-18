@@ -2,15 +2,15 @@ import Link from 'next/link'
 import Head from 'next/head'
 import Image from 'next/image'
 import Router from 'next/router'
-import { motion } from 'framer-motion'
-import { useMoralis } from 'react-moralis'
+import { useContext } from 'react'
+import { AppContext } from '../AppContext'
 import DefaultModal from '../components/Modals'
 import CustomLink from '../components/CustomLink'
 import MetamaskConnect from '../components/MetamaskConnect'
 import { AiFillLinkedin, AiFillGithub } from 'react-icons/ai'
 
 const HomePage = () => {
-  const { user } = useMoralis()
+  const { user, userAddress, connectWallet } = useContext(AppContext)
 
   return (
     <>
@@ -22,7 +22,7 @@ const HomePage = () => {
       </Head>
       <div id="gradientbg">
         <nav className="flex h-24 w-full flex-row content-center justify-between bg-royal-blue opacity-100">
-          <div className="ml-20 flex">
+          <div className="ml-20 flex ">
             <Image
               alt="landing page multipay logo"
               src="/assets/logo.svg"
@@ -47,60 +47,16 @@ const HomePage = () => {
         </nav>
         <div id="earthbg">
           <div className="absolute top-20 flex-col justify-center text-white">
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              variants={{
-                hidden: {
-                  scale: 0.8,
-                  opacity: 0,
-                  translateY: 100,
-                },
-                visible: {
-                  scale: 1,
-                  opacity: 1,
-                  translateY: 0,
-                  transition: {
-                    delay: 0.2,
-                    duration: 1,
-                  },
-                },
-              }}
-              className="order-1 flex basis-1/2 justify-center"
-            >
+            <div className="order-1 flex basis-1/2 animate-fadeIn justify-center">
               <p className="self-center text-center  text-4xl ">
                 Reach new customers and manage multiple <br /> crypto payments
                 with ease
               </p>
-            </motion.div>
+            </div>
             <div className="order-2 mt-20 flex basis-1/2 content-center justify-center px-20">
-              <motion.div
-                initial="hidden"
-                animate="visible"
-                variants={{
-                  hidden: {
-                    scale: 0.5,
-                    opacity: 0,
-                    translateY: 100,
-                  },
-                  visible: {
-                    scale: 1,
-                    opacity: 1,
-                    translateY: 0,
-                    transition: {
-                      delay: 1,
-                      duration: 1,
-                    },
-                  },
-                }}
-                className="order-1 basis-1/3 flex-col px-5"
-              >
+              <div className="order-1 basis-1/3 animate-[fadeIn_3s_ease-in-out] flex-col px-5">
                 <span className="mb-5 flex -translate-x-4 justify-center">
-                  <img
-                    className=""
-                    src="/assets/secureCheck.svg"
-                    alt="dollars image"
-                  />
+                  <img src="/assets/secureCheck.svg" alt="dollars image" />
                   <p className="semi-bold ml-4 text-center text-xl">
                     Secure Operations
                   </p>
@@ -109,29 +65,9 @@ const HomePage = () => {
                   We use the power of blockchain technology to achieve fast and
                   secure transactions
                 </p>
-              </motion.div>
+              </div>
 
-              <motion.div
-                initial="hidden"
-                animate="visible"
-                variants={{
-                  hidden: {
-                    scale: 0.5,
-                    opacity: 0,
-                    translateY: 100,
-                  },
-                  visible: {
-                    scale: 1,
-                    opacity: 1,
-                    translateY: 0,
-                    transition: {
-                      delay: 1.5,
-                      duration: 1,
-                    },
-                  },
-                }}
-                className="order-2 basis-1/3 flex-col px-5"
-              >
+              <div className="order-2 basis-1/3 animate-[fadeIn2_3.5s_ease-in-out] flex-col px-5">
                 <span className="mb-3 flex -translate-x-4 justify-center">
                   <img
                     className="object-contain"
@@ -146,28 +82,8 @@ const HomePage = () => {
                   Make multiple transactions at the price of one with our
                   cutting edge Multipay function
                 </p>
-              </motion.div>
-              <motion.div
-                initial="hidden"
-                animate="visible"
-                variants={{
-                  hidden: {
-                    scale: 0.5,
-                    opacity: 0,
-                    translateY: 100,
-                  },
-                  visible: {
-                    scale: 1,
-                    opacity: 1,
-                    translateY: 0,
-                    transition: {
-                      delay: 2,
-                      duration: 1,
-                    },
-                  },
-                }}
-                className="order-3 basis-1/3 flex-col px-5"
-              >
+              </div>
+              <div className="order-3 basis-1/3 animate-[fadeIn3_4s_ease-in-out] flex-col px-5">
                 <span className="mb-5 flex -translate-x-4 justify-center">
                   <img
                     className=""
@@ -182,7 +98,7 @@ const HomePage = () => {
                   No personal data, long registrations, login or kyc
                   verification, just connect your wallet
                 </p>
-              </motion.div>
+              </div>
             </div>
           </div>
         </div>

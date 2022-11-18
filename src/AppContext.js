@@ -203,8 +203,8 @@ export const AppProvider = ({ children }) => {
       const address = await user?.get('ethAddress')
       setUserAddress(address)
       await getUserBalance()
-      setMpayBalance(assets?.filter((i) => i.symbol == 'MPAY')[0].balance)
-      console.log(mpayBalance)
+      // setMpayBalance(assets?.filter((i) => i.symbol == 'MPAY')[0].balance)
+      // console.log(mpayBalance)
     }
   }, [isAuthenticated, authenticate, userAddress, setUsername, user, username])
 
@@ -237,6 +237,7 @@ export const AppProvider = ({ children }) => {
         getUserBalance,
         assets,
         loading,
+        connectWallet,
       }}
     >
       {children}
