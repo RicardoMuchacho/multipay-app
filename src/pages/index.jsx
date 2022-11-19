@@ -33,15 +33,12 @@ const HomePage = () => {
           </div>
 
           <div className="order-last flex">
-            <CustomLink
+            {/* <CustomLink
               className="mr-5 self-center rounded border border-solid border-white p-1 px-2 text-white hover:bg-slate-600"
               href={'/dashboard'}
             >
               Dashboard
-            </CustomLink>
-            <button className="self-center rounded border border-solid border-white p-1 px-2 text-white hover:bg-slate-600">
-              Buy MPAY
-            </button>
+            </CustomLink> */}
             <MetamaskConnect isLandingPage={true}></MetamaskConnect>
           </div>
         </nav>
