@@ -8,7 +8,9 @@ import { BeatLoader } from 'react-spinners'
 import { ReceiveModal, BuyModal, SendModal } from '../../components/Modals'
 import useModal from '../../hooks/useModal'
 import { useContext, useState } from 'react'
-import { TestChart } from '../../components/TestChart'
+import { EthChart } from '../../components/EthChart'
+import { BtcChart } from '../../components/BtcChart'
+import Image from 'next/image'
 
 const Dashboard = (props) => {
   const {
@@ -35,8 +37,6 @@ const Dashboard = (props) => {
     openBuyModal,
   } = useModal()
   const [token, setToken] = useState({})
-
-  console.log(isAuthenticated)
 
   return (
     <>
@@ -69,9 +69,9 @@ const Dashboard = (props) => {
                 <table className="w-full table-auto">
                   <thead className="text-sm  text-[#8C8C8C]">
                     <tr className="m-3">
+                      <th className="font-normal">Logo</th>
                       <th className="font-normal">Coin</th>
                       <th className="font-normal">Balance</th>
-                      <th className="font-normal">USD Value</th>
                       <th></th>
                       <th></th>
                     </tr>
@@ -83,7 +83,18 @@ const Dashboard = (props) => {
                           key={asset.token_address}
                           className="border-y border-[#D1D1D1]"
                         >
-                          <td className="whitespace-nowrap px-3 py-1 text-left">
+                          <td className="whitespace-nowrap px-2 py-1">
+                            <div className="flex place-content-center">
+                              <Image
+                                className="object-contain"
+                                src={`/assets/tokens/${asset.symbol}.png`}
+                                alt={`multipay token image for ${asset.symbol}`}
+                                width={20}
+                                height={20}
+                              ></Image>
+                            </div>
+                          </td>
+                          <td className="whitespace-nowrap px-2 py-1 text-center">
                             {asset.name} ( {asset.symbol} )
                           </td>
                           <td className="px-3 py-1">
@@ -92,7 +103,6 @@ const Dashboard = (props) => {
                               3
                             )}
                           </td>
-                          <td className="px-3 py-1">Not Ready</td>
                           <td className="py-1">
                             <button
                               onClick={() => {
@@ -123,12 +133,11 @@ const Dashboard = (props) => {
               )}
             </div>
           </div>
-
-          <div className="h-50%  relative w-full rounded-md bg-white p-5 shadow-md">
-            <TestChart></TestChart>
+          <div className="relative  h-[225px] w-full rounded-md bg-white p-5 shadow-md">
+            <EthChart></EthChart>
           </div>
-          <div className="h-50%  relative w-full rounded-md bg-white p-5 shadow-md">
-            <TestChart></TestChart>
+          <div className="relative h-[225px] w-full rounded-md bg-white p-5 shadow-md">
+            <BtcChart></BtcChart>
           </div>
           <ReceiveModal
             visible={visibleReceive}
