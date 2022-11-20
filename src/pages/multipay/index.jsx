@@ -45,7 +45,7 @@ const Multipay = (props) => {
             </div>
           </div>
           <div className="mt-5 flex justify-center">
-            <label onChange={() => console.log(tokenSelection)} for="token">
+            <label onChange={() => console.log(tokenSelection)} htmlFor="token">
               Select token for transfer:
             </label>
 
