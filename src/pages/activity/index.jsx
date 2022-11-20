@@ -64,7 +64,7 @@ const Activity = (props) => {
                           )}
                         </td>
                         <td className="px-3 py-1">
-                          {transaction.from_address == user.get('ethAddress')
+                          {transaction.from_address == userAddress
                             ? 'sent'
                             : 'received'}
                         </td>

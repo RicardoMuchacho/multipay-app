@@ -125,15 +125,9 @@ const HomePage = () => {
             <div className="order-2 flex">
               <ul>
                 <li className="mb-1">Services</li>
-                <li className="text-sm text-[#7B7E84]">
-                  <CustomLink href={'/dashboard'}>Dashboard</CustomLink>
-                </li>
-                <li className="text-sm text-[#7B7E84]">
-                  <CustomLink href={'/multipay'}>Multipay</CustomLink>
-                </li>
-                <li className="text-sm text-[#7B7E84]">
-                  <CustomLink href={'/activity'}>Activity</CustomLink>
-                </li>
+                <li className="text-sm text-[#7B7E84]">Dashboard</li>
+                <li className="text-sm text-[#7B7E84]">Multipay</li>
+                <li className="text-sm text-[#7B7E84]">Activity</li>
               </ul>
             </div>
             <div className="order-3 flex">

@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useMoralis, useMoralisWeb3Api } from 'react-moralis'
+import { AppContext } from '../AppContext'
 
 export const useTransactions = () => {
   const [transactions, setTransactions] = useState([])
@@ -7,14 +8,14 @@ export const useTransactions = () => {
 
   const Web3Api = useMoralisWeb3Api()
   const BaseUrl = 'https://goerli.etherscan.io/tx/'
-  const { user } = useMoralis()
+  const { user, userAddress } = useContext(AppContext)
 
   const fetchTransactions = async () => {
     if (!user) return setTransactions([])
     setLoading(true)
     const data = await Web3Api.account.getTransactions({
       chain: 'goerli',
-      address: user.get('ethAddress'),
+      address: userAddress,
       limit: 20,
     })
     setLoading(false)
