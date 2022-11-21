@@ -1,6 +1,6 @@
 import React from 'react'
 import { createContext, useState, useEffect } from 'react'
-import { useMoralis, useWeb3Transfer } from 'react-moralis'
+import { useMoralis, useWeb3Transfer, useMoralisWeb3Api } from 'react-moralis'
 import {
   multipayAbi,
   multipayContract,
@@ -9,13 +9,15 @@ import {
 } from './utils/constants'
 import { BigNumber, ethers } from 'ethers'
 import { useBalance } from './hooks/useBalance'
+import { useBtcChart } from './hooks/useBtcChart'
+import { useEthChart } from './hooks/useEthChart'
+
+import moment from 'moment/moment'
 
 export const AppContext = createContext()
 
 export const AppProvider = ({ children }) => {
   const { assets, loading, getUserBalance } = useBalance()
-
-  const [username, setUsername] = useState('')
   const [userAddress, setUserAddress] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [tsxLink, setTsxLink] = useState(null)
@@ -23,8 +25,11 @@ export const AppProvider = ({ children }) => {
   const [multipayErr, setMultipayErr] = useState(null)
   const [mpayBalance, setMpayBalance] = useState(null)
 
-  const testnet = 'goerli'
+  const { isLoadingBtcChart, btcChartData, getBtcChartData } = useBtcChart()
 
+  const { isLoadingEthChart, ethChartData, getEthChartData } = useEthChart()
+
+  const testnet = 'goerli'
   const {
     authenticate,
     isAuthenticated,
@@ -198,15 +203,20 @@ export const AppProvider = ({ children }) => {
   //set context user data
   useEffect(async () => {
     if (isAuthenticated) {
-      const currentUsername = await user?.get('nickname')
-      setUsername(currentUsername)
       const address = await user?.get('ethAddress')
       setUserAddress(address)
       await getUserBalance()
       // setMpayBalance(assets?.filter((i) => i.symbol == 'MPAY')[0].balance)
       // console.log(mpayBalance)
     }
-  }, [isAuthenticated, authenticate, userAddress, setUsername, user, username])
+  }, [isAuthenticated, authenticate, userAddress, user])
+
+  useEffect(async () => {
+    await setTimeout(5000)
+    await getBtcChartData()
+    await getEthChartData()
+    console.log('chart data imported')
+  }, [])
 
   return (
     <AppContext.Provider
@@ -217,8 +227,6 @@ export const AppProvider = ({ children }) => {
         Moralis,
         user,
         isWeb3Enabled,
-        username,
-        setUsername,
         logout,
         userAddress,
         testnet,
@@ -238,6 +246,10 @@ export const AppProvider = ({ children }) => {
         assets,
         loading,
         connectWallet,
+        btcChartData,
+        ethChartData,
+        isLoadingBtcChart,
+        isLoadingEthChart,
       }}
     >
       {children}

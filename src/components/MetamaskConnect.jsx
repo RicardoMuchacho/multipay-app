@@ -23,6 +23,8 @@ export const MetamaskConnect = (props) => {
           onClick={async () => {
             await enableWeb3()
             await authenticate()
+            console.log(isAuthenticated)
+            console.log(userAddress)
             if (props.isLandingPage) Router.push('/dashboard')
           }}
         >
