@@ -2,14 +2,9 @@ import React from 'react'
 import Image from 'next/image'
 import CustomLink from '../components/CustomLink'
 import MetamaskConnect from '../components/MetamaskConnect'
-import { useState } from 'react'
 import Router from 'next/router'
-import { DefaultModal, BuyModal, ReceiveModal } from './Modals'
-import useModal from '../hooks/useModal'
 
 export const Navbar = (props) => {
-  const { openReceiveModal, hideReceiveModal, visibleReceive } = useModal()
-  const [vis, setVis] = useState('none')
   return (
     <div className="relative">
       <nav className="flex h-24 w-full flex-row content-center justify-between bg-royal-blue opacity-100">

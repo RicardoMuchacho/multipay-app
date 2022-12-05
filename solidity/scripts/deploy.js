@@ -8,7 +8,9 @@ async function main() {
 
   // console.log('Multipay Token deployed to:', multipayToken.address)
 
-  const multipaymentContract = await hre.ethers.getContractFactory('Multipayment')
+  const multipaymentContract = await hre.ethers.getContractFactory(
+    'Multipayment'
+  )
   const multipayment = await multipaymentContract.deploy()
 
   await multipayment.deployed()

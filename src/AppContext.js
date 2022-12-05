@@ -105,6 +105,13 @@ export const AppProvider = ({ children }) => {
       type: 'erc20',
       contractAddress: contractAddress,
     }
+    if (contractAddress == 'goerli eth') {
+      options = {
+        type: 'native',
+        amount: Moralis.Units.ETH(sendAmount),
+        receiver: receiver,
+      }
+    }
     setIsLoading(true)
     try {
       const transaction = await Moralis.transfer(options)
@@ -163,7 +170,6 @@ export const AppProvider = ({ children }) => {
       } else {
         totalAmount += parseFloat(amountArray[i])
         let gwei = Moralis.Units.Token(parseFloat(element, 18))
-        console.log(gwei + 'll')
         amountArray[i] = BigNumber.from(gwei)
       }
     })
@@ -179,7 +185,6 @@ export const AppProvider = ({ children }) => {
       contractAddress: multipaymentContract,
       functionName: 'withdrawls',
       msgValue: Moralis.Units.ETH(totalAmount),
-
       params: {
         withdrawls: Moralis.Units.ETH(totalAmount),
         addrs: addressArray,

@@ -1,8 +1,8 @@
-const goerliEthAddress = '0xecB0Cc64e7D5Bd306E1C86E702ba41c4E5B8a161'
+// const goerliEthAddress = '0x7af963cF6D228E564e2A0aA0DdBF06210B38615D'
 
 export const formatNativeBalance = (balance) => {
   const item = {
-    token_address: goerliEthAddress,
+    token_address: 'goerli eth',
     balance: balance,
     decimals: 18,
     logo: null,

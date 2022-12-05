@@ -2,16 +2,11 @@ import Link from 'next/link'
 import Head from 'next/head'
 import Image from 'next/image'
 import Router from 'next/router'
-import { useContext } from 'react'
-import { AppContext } from '../AppContext'
-import DefaultModal from '../components/Modals'
 import CustomLink from '../components/CustomLink'
 import MetamaskConnect from '../components/MetamaskConnect'
 import { AiFillLinkedin, AiFillGithub } from 'react-icons/ai'
 
 const HomePage = () => {
-  const { user, userAddress, connectWallet } = useContext(AppContext)
-
   return (
     <>
       <Head>
@@ -33,12 +28,6 @@ const HomePage = () => {
           </div>
 
           <div className="order-last flex">
-            {/* <CustomLink
-              className="mr-5 self-center rounded border border-solid border-white p-1 px-2 text-white hover:bg-slate-600"
-              href={'/dashboard'}
-            >
-              Dashboard
-            </CustomLink> */}
             <MetamaskConnect isLandingPage={true}></MetamaskConnect>
           </div>
         </nav>
