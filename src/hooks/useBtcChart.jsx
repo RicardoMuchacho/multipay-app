@@ -18,10 +18,10 @@ export const useBtcChart = () => {
     setIsLoadingBtcChart(true)
 
     let dateBlock = await Web3API.native.getDateToBlock({
-      chain: 'eth',
+      chain: 0x1,
       date: moment().format('YYYY-MM-DD'),
     })
-
+    console.log(dateBlock)
     let blockPrice = await Web3API.token.getTokenPrice({
       address: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
       to_block: dateBlock.block,

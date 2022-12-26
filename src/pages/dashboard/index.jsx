@@ -12,15 +12,8 @@ import { BtcChart } from '../../components/BtcChart'
 import Image from 'next/image'
 
 const Dashboard = (props) => {
-  const {
-    isAuthenticated,
-    user,
-    setMpayBalance,
-    userAddress,
-    assets,
-    loading,
-    getUserBalance,
-  } = useContext(AppContext)
+  const { user, setMpayBalance, userAddress, assets, loading, getUserBalance } =
+    useContext(AppContext)
   setMpayBalance(assets?.filter((i) => i.symbol == 'MPAY')[0].balance)
 
   // const { assets, loading, getUserBalance } = useBalance()
@@ -58,7 +51,7 @@ const Dashboard = (props) => {
                 )}
               </div>
 
-              {!isAuthenticated ? (
+              {!userAddress ? (
                 <div className="flex h-full place-items-center">
                   <p className="w-full text-center">
                     No user connected. Connect Wallet

@@ -23,7 +23,7 @@ export const useEthChart = () => {
         .format('YYYY-MM-DD')
 
       let dateBlock = await Web3API.native.getDateToBlock({
-        chain: 'eth',
+        chain: 0x1,
         date: newDate,
       })
       blocksArray.push(dateBlock)

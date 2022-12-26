@@ -11,7 +11,6 @@ import { BigNumber, ethers } from 'ethers'
 import { useBalance } from './hooks/useBalance'
 import { useBtcChart } from './hooks/useBtcChart'
 import { useEthChart } from './hooks/useEthChart'
-
 import moment from 'moment/moment'
 
 export const AppContext = createContext()
@@ -30,6 +29,7 @@ export const AppProvider = ({ children }) => {
   const { isLoadingEthChart, ethChartData, getEthChartData } = useEthChart()
 
   const testnet = 'goerli'
+  const apiKey = process.env.NEXT_PUBLIC_MORALIS_WEB3API_KEY
   const {
     authenticate,
     isAuthenticated,
@@ -44,6 +44,82 @@ export const AppProvider = ({ children }) => {
     await enableWeb3()
     await authenticate()
   }
+
+  async function handleAuth(provider) {
+    await Moralis.enableWeb3({
+      throwOnError: true,
+      provider,
+    })
+
+    const { account, chainId } = Moralis
+
+    if (!account) {
+      throw new Error(
+        'Connecting to chain failed, as no connected account was found'
+      )
+    }
+    if (!chainId) {
+      throw new Error(
+        'Connecting to chain failed, as no connected chain was found'
+      )
+    }
+
+    const { message } = await Moralis.Cloud.run('requestMessage', {
+      address: account,
+      chain: parseInt(chainId, 16),
+      network: 'evm',
+    })
+
+    await Moralis.authenticate({
+      signingMessage: message,
+      throwOnError: true,
+    }).then((user) => {
+      console.log(user)
+      console.log(user?.get('ethAddress'))
+      setUserAddress(user.get('ethAddress'))
+      console.log(isAuthenticated)
+    })
+  }
+
+  // const handleAuth = async (provider = 'metamask') => {
+  //   try {
+  //     setAuthError(null)
+  //     setIsAuthenticating(true)
+
+  //     // Enable web3 to get user address and chain
+  //     await enableWeb3({ throwOnError: true, provider })
+  //     const { account, chainId } = Moralis
+
+  //     if (!account) {
+  //       throw new Error(
+  //         'Connecting to chain failed, as no connected account was found'
+  //       )
+  //     }
+  //     if (!chainId) {
+  //       throw new Error(
+  //         'Connecting to chain failed, as no connected chain was found'
+  //       )
+  //     }
+
+  //     // Get message to sign from the auth api
+  //     const { message } = await Moralis.Cloud.run('requestMessage', {
+  //       address: account,
+  //       chain: parseInt(chainId, 16),
+  //       networkType: 'evm',
+  //     })
+
+  //     // Authenticate and login via parse
+  //     await authenticate({
+  //       signingMessage: message,
+  //       throwOnError: true,
+  //     })
+  //     onClose()
+  //   } catch (error) {
+  //     setAuthError(error)
+  //   } finally {
+  //     setIsAuthenticating(false)
+  //   }
+  // }
 
   const buyTokens = async (buyAmount) => {
     if (!isAuthenticated) {
@@ -216,12 +292,12 @@ export const AppProvider = ({ children }) => {
     }
   }, [isAuthenticated, authenticate, userAddress, user])
 
-  useEffect(async () => {
-    await setTimeout(5000)
-    await getBtcChartData()
-    await getEthChartData()
-    console.log('chart data imported')
-  }, [])
+  // useEffect(async () => {
+  //   await setTimeout(5000)
+  //   await getBtcChartData()
+  //   await getEthChartData()
+  //   console.log('chart data imported')
+  // }, [])
 
   return (
     <AppContext.Provider
@@ -234,6 +310,7 @@ export const AppProvider = ({ children }) => {
         isWeb3Enabled,
         logout,
         userAddress,
+        setUserAddress,
         testnet,
         buyTokens,
         tsxLink,
@@ -255,6 +332,8 @@ export const AppProvider = ({ children }) => {
         ethChartData,
         isLoadingBtcChart,
         isLoadingEthChart,
+        handleAuth,
+        apiKey,
       }}
     >
       {children}

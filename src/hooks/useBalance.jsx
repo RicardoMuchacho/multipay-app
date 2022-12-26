@@ -9,11 +9,13 @@ export const useBalance = () => {
   const [assets, setAssets] = useState()
 
   useEffect(async () => {
+    console.log(user, walletAddress)
     getUserBalance()
+    console.log(assets)
   }, [])
 
   const fetchNativeBalance = async () => {
-    const balance = await Web3API.account.getNativeBalance({ chain: 'goerli' })
+    const balance = await Web3API.account.getNativeBalance({ chain: 0x5 })
     return await formatNativeBalance(balance.balance)
   }
 
@@ -21,7 +23,7 @@ export const useBalance = () => {
     return await account
       .getTokenBalances({
         address: walletAddress,
-        chain: 'goerli',
+        chain: 0x5,
       })
       .then((result) => result)
   }

@@ -9,22 +9,20 @@ export const MetamaskConnect = (props) => {
   const {
     enableWeb3,
     authenticate,
-    isAuthenticated,
     user,
     logout,
+    setUserAddress,
     userAddress,
+    handleAuth,
   } = useContext(AppContext)
 
-  if (!isAuthenticated) {
+  if (userAddress == '') {
     return (
       <>
         <button
           className="mr-20 ml-5 inline-flex items-center self-center rounded border border-white p-1 px-2 text-white hover:bg-slate-600"
           onClick={async () => {
-            await enableWeb3()
-            await authenticate()
-            console.log(isAuthenticated)
-            console.log(userAddress)
+            await handleAuth('metamask')
             if (props.isLandingPage) Router.push('/dashboard')
           }}
         >
@@ -59,6 +57,7 @@ export const MetamaskConnect = (props) => {
           className="inline-flex items-center gap-2"
           onClick={async () => {
             await logout()
+            setUserAddress('')
             Router.push('/')
           }}
         >

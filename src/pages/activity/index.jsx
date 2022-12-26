@@ -28,7 +28,7 @@ const Activity = (props) => {
             <BeatLoader color="gray" loading={loading}></BeatLoader>
           </div>
           {transactions.length === 0 ? (
-            !user ? (
+            !userAddress ? (
               <div className="flex h-full justify-center">
                 <p className="mb-20 place-self-center">
                   No user connected. Connect Wallet
@@ -46,7 +46,7 @@ const Activity = (props) => {
                   <tr className="m-3">
                     <th className="font-normal">Time</th>
                     <th className="font-normal">Type</th>
-                    <th className="font-normal">Value</th>
+                    {/* <th className="font-normal">Value</th> */}
                     <th className="font-normal">Status</th>
                     <th className="font-normal">Transaction Hash</th>
                   </tr>
@@ -68,22 +68,20 @@ const Activity = (props) => {
                             ? 'sent'
                             : 'received'}
                         </td>
+                        {/* <td className="px-3 py-1">
+                          {transaction.value / 100000000000000000000} ETH
+                        </td> */}
                         <td className="px-3 py-1">
-                          {transaction.value / 1000000000000000000} ETH
-                        </td>
-                        <td className="px-3 py-1">
-                          {transaction.receipt_status === '1'
-                            ? 'success'
-                            : 'failed'}
+                          {transaction.value != 0 ? 'success' : 'failed'}
                         </td>
 
                         <td className="break-all px-3 py-1">
                           <a
                             className=" text-blue-600 hover:underline"
-                            href={`${BaseUrl}${transaction.hash}`}
+                            href={`${BaseUrl}${transaction.transaction_hash}`}
                             target="_blank"
                           >
-                            {transaction.hash}
+                            {transaction.transaction_hash}
                           </a>
                         </td>
                       </tr>
