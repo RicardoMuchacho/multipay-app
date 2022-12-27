@@ -17,7 +17,7 @@ export const AppContext = createContext()
 
 export const AppProvider = ({ children }) => {
   const { assets, loading, getUserBalance } = useBalance()
-  const [userAddress, setUserAddress] = useState('')
+  const [userAddress, setUserAddress] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [tsxLink, setTsxLink] = useState(null)
   const [errorMsg, setErrorMsg] = useState(null)
@@ -30,15 +30,8 @@ export const AppProvider = ({ children }) => {
 
   const testnet = 'goerli'
   const apiKey = process.env.NEXT_PUBLIC_MORALIS_WEB3API_KEY
-  const {
-    authenticate,
-    isAuthenticated,
-    enableWeb3,
-    Moralis,
-    user,
-    isWeb3Enabled,
-    logout,
-  } = useMoralis()
+  const { authenticate, enableWeb3, Moralis, user, isWeb3Enabled, logout } =
+    useMoralis()
 
   const connectWallet = async () => {
     await enableWeb3()
@@ -77,54 +70,12 @@ export const AppProvider = ({ children }) => {
       console.log(user)
       console.log(user?.get('ethAddress'))
       setUserAddress(user.get('ethAddress'))
-      console.log(isAuthenticated)
     })
   }
 
-  // const handleAuth = async (provider = 'metamask') => {
-  //   try {
-  //     setAuthError(null)
-  //     setIsAuthenticating(true)
-
-  //     // Enable web3 to get user address and chain
-  //     await enableWeb3({ throwOnError: true, provider })
-  //     const { account, chainId } = Moralis
-
-  //     if (!account) {
-  //       throw new Error(
-  //         'Connecting to chain failed, as no connected account was found'
-  //       )
-  //     }
-  //     if (!chainId) {
-  //       throw new Error(
-  //         'Connecting to chain failed, as no connected chain was found'
-  //       )
-  //     }
-
-  //     // Get message to sign from the auth api
-  //     const { message } = await Moralis.Cloud.run('requestMessage', {
-  //       address: account,
-  //       chain: parseInt(chainId, 16),
-  //       networkType: 'evm',
-  //     })
-
-  //     // Authenticate and login via parse
-  //     await authenticate({
-  //       signingMessage: message,
-  //       throwOnError: true,
-  //     })
-  //     onClose()
-  //   } catch (error) {
-  //     setAuthError(error)
-  //   } finally {
-  //     setIsAuthenticating(false)
-  //   }
-  // }
-
   const buyTokens = async (buyAmount) => {
-    if (!isAuthenticated) {
-      await enableWeb3()
-      await connectWallet()
+    if (!userAddress) {
+      await handleAuth()
     }
     if (!isWeb3Enabled) {
       await enableWeb3()
@@ -161,9 +112,8 @@ export const AppProvider = ({ children }) => {
     contractAddress,
     decimals
   ) => {
-    if (!isAuthenticated) {
-      await enableWeb3()
-      await connectWallet()
+    if (!userAddress) {
+      await handleAuth()
     }
     if (!isWeb3Enabled) {
       await enableWeb3()
@@ -207,9 +157,8 @@ export const AppProvider = ({ children }) => {
   //0xc717879FBc3EA9F770c0927374ed74A998A3E2Ce
   //0xecB0Cc64e7D5Bd306E1C86E702ba41c4E5B8a161
   const multiTransfer = async (addresses, amounts) => {
-    if (!isAuthenticated) {
-      await enableWeb3()
-      await connectWallet()
+    if (!userAddress) {
+      await handleAuth()
     }
     if (!isWeb3Enabled) {
       await enableWeb3()
@@ -283,27 +232,24 @@ export const AppProvider = ({ children }) => {
 
   //set context user data
   useEffect(async () => {
-    if (isAuthenticated) {
-      const address = await user?.get('ethAddress')
-      setUserAddress(address)
-      await getUserBalance()
-      // setMpayBalance(assets?.filter((i) => i.symbol == 'MPAY')[0].balance)
-      // console.log(mpayBalance)
-    }
-  }, [isAuthenticated, authenticate, userAddress, user])
+    // const address = await user?.get('ethAddress')
+    // setUserAddress(address)
+    await getUserBalance()
+    // setMpayBalance(assets?.filter((i) => i.symbol == 'MPAY')[0].balance)
+    // console.log(mpayBalance)
+  }, [userAddress])
 
-  // useEffect(async () => {
-  //   await setTimeout(5000)
-  //   await getBtcChartData()
-  //   await getEthChartData()
-  //   console.log('chart data imported')
-  // }, [])
+  useEffect(async () => {
+    await setTimeout(5000)
+    await getBtcChartData()
+    await getEthChartData()
+    console.log('chart data imported')
+  }, [])
 
   return (
     <AppContext.Provider
       value={{
         authenticate,
-        isAuthenticated,
         enableWeb3,
         Moralis,
         user,

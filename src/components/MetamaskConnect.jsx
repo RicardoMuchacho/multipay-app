@@ -16,7 +16,7 @@ export const MetamaskConnect = (props) => {
     handleAuth,
   } = useContext(AppContext)
 
-  if (userAddress == '') {
+  if (userAddress == null) {
     return (
       <>
         <button

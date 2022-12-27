@@ -17,23 +17,35 @@ export const useEthChart = () => {
     let blocksArray = []
     let pricesArray = []
     setIsLoadingEthChart(true)
+    const options = {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        'X-API-Key': process.env.NEXT_PUBLIC_MORALIS_WEB3API_KEY,
+      },
+    }
+
     for (let i = 0; i <= 5; i++) {
       let newDate = moment()
         .subtract(5 - i, 'days')
         .format('YYYY-MM-DD')
 
-      let dateBlock = await Web3API.native.getDateToBlock({
-        chain: 0x1,
-        date: newDate,
-      })
-      blocksArray.push(dateBlock)
+      let dateBlock = await fetch(
+        `https://deep-index.moralis.io/api/v2/dateToBlock?chain=eth&date=${newDate}`,
+        options
+      )
+      let dateBlockJson = await dateBlock.json()
+
+      blocksArray.push(dateBlockJson)
       let formatedDate = moment(newDate).format('MMM. DD')
       datesArray.push(formatedDate)
-      let blockPrice = await Web3API.token.getTokenPrice({
-        address: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-        to_block: dateBlock.block,
-      })
-      pricesArray.push(blockPrice.usdPrice)
+
+      let blockPrice = await fetch(
+        `https://deep-index.moralis.io/api/v2/erc20/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2/price?chain=eth&to_block=${dateBlockJson.block}`,
+        options
+      )
+      let blockPriceJson = await blockPrice.json()
+      pricesArray.push(blockPriceJson.usdPrice)
     }
     let data = {
       labels: datesArray,
