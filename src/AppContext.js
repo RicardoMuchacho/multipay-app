@@ -22,6 +22,7 @@ export const AppProvider = ({ children }) => {
   const [tsxLink, setTsxLink] = useState(null)
   const [errorMsg, setErrorMsg] = useState(null)
   const [multipayErr, setMultipayErr] = useState(null)
+  const [multipayTsx, setMultipayTsx] = useState(null)
   const [mpayBalance, setMpayBalance] = useState(null)
 
   const { isLoadingBtcChart, btcChartData, getBtcChartData } = useBtcChart()
@@ -221,10 +222,12 @@ export const AppProvider = ({ children }) => {
       const transaction = await Moralis.executeFunction(options)
       const result = await transaction.wait()
       console.log(transaction)
-      setMultipayErr(`Successful transaction!`)
+      setMultipayTsx(`https://goerli.etherscan.io/tx/${transaction.hash}`)
+      setMultipayErr('Transaction Successful!')
       setIsLoading(false)
     } catch (error) {
       setMultipayErr('Transaction failed!')
+      setMultipayTsx(null)
       console.log(error)
       setIsLoading(false)
     }
@@ -270,6 +273,7 @@ export const AppProvider = ({ children }) => {
         setMpayBalance,
         multiTransfer,
         multipayErr,
+        multipayTsx,
         getUserBalance,
         assets,
         loading,

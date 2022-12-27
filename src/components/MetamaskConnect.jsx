@@ -57,7 +57,7 @@ export const MetamaskConnect = (props) => {
           className="inline-flex items-center gap-2"
           onClick={async () => {
             await logout()
-            setUserAddress('')
+            setUserAddress(null)
             Router.push('/')
           }}
         >

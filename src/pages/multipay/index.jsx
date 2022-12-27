@@ -15,6 +15,7 @@ const Multipay = (props) => {
     multiTransfer,
     multipayErr,
     isLoading,
+    multipayTsx,
   } = useContext(AppContext)
   const { hideBuyModal, visibleBuy, openBuyModal } = useModal()
   const [transferToken, setTransferToken] = useState('ETH')
@@ -108,7 +109,17 @@ const Multipay = (props) => {
                   </button>
                 )}
               </div>
-              {multipayErr && <p className="mt-1 text-center">{multipayErr}</p>}
+              {multipayErr && (
+                <div className="mt-1 justify-center text-center">
+                  <a
+                    className=" text-blue-600 hover:underline"
+                    href={multipayTsx}
+                    target="_blank"
+                  >
+                    {multipayErr}
+                  </a>
+                </div>
+              )}
             </>
           ) : (
             <div className="flex h-60 w-full justify-center gap-2 overflow-auto p-5">
