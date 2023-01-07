@@ -54,17 +54,5 @@ export const useBalance = () => {
     }
   }
 
-  // const fetchTokenMetadataBySymbol = async () => {
-  //   //Get metadata for an array of tokens
-  //   const options = { chain: 'eth', symbols: ['LINK', 'AAVE'] }
-  //   const tokenArrayMetadata = await Web3API.token.getTokenMetadataBySymbol(
-  //     options
-  //   )
-  //   console.log(tokenArrayMetadata)
-  //   return tokenArrayMetadata
-  // }
-
-  // fetchTokenMetadataBySymbol()
-
   return { loading, getUserBalance, assets }
 }

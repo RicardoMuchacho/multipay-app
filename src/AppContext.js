@@ -12,11 +12,13 @@ import { useBalance } from './hooks/useBalance'
 import { useBtcChart } from './hooks/useBtcChart'
 import { useEthChart } from './hooks/useEthChart'
 import moment from 'moment/moment'
+import { formatNativeBalance } from './utils/formatter'
 
 export const AppContext = createContext()
 
 export const AppProvider = ({ children }) => {
-  const { assets, loading, getUserBalance } = useBalance()
+  const [assets, setAssets] = useState()
+  const [loading, setLoading] = useState(false)
   const [userAddress, setUserAddress] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [tsxLink, setTsxLink] = useState(null)
@@ -39,40 +41,62 @@ export const AppProvider = ({ children }) => {
     await authenticate()
   }
 
-  async function handleAuth(provider) {
-    await Moralis.enableWeb3({
-      throwOnError: true,
-      provider,
-    })
-
-    const { account, chainId } = Moralis
-
-    if (!account) {
-      throw new Error(
-        'Connecting to chain failed, as no connected account was found'
+  async function handleAuth(prov) {
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      const signer = provider.getSigner()
+      const signedMessage = await signer.signMessage(
+        'Multipay App Authentication'
       )
-    }
-    if (!chainId) {
-      throw new Error(
-        'Connecting to chain failed, as no connected chain was found'
+      console.log(signedMessage)
+      const signerAddr = await ethers.utils.verifyMessage(
+        'Multipay App Authentication',
+        signedMessage
       )
+      console.log(signerAddr)
+      setUserAddress(signerAddr)
+    } catch (error) {
+      console.log(error)
     }
-
-    const { message } = await Moralis.Cloud.run('requestMessage', {
-      address: account,
-      chain: parseInt(chainId, 16),
-      network: 'evm',
-    })
-
-    await Moralis.authenticate({
-      signingMessage: message,
-      throwOnError: true,
-    }).then((user) => {
-      console.log(user)
-      console.log(user?.get('ethAddress'))
-      setUserAddress(user.get('ethAddress'))
-    })
   }
+  // async function handleAuth(provider) {
+  //   try {
+  //     await Moralis.enableWeb3({
+  //       throwOnError: true,
+  //       provider,
+  //     })
+
+  //     const { account, chainId } = Moralis
+
+  //     if (!account) {
+  //       throw new Error(
+  //         'Connecting to chain failed, as no connected account was found'
+  //       )
+  //     }
+  //     if (!chainId) {
+  //       throw new Error(
+  //         'Connecting to chain failed, as no connected chain was found'
+  //       )
+  //     }
+
+  //     const { message } = await Moralis.Cloud.run('requestMessage', {
+  //       address: account,
+  //       chain: parseInt(chainId, 16),
+  //       network: 'evm',
+  //     })
+
+  //     await authenticate({
+  //       signingMessage: message,
+  //       throwOnError: true,
+  //     }).then((user) => {
+  //       console.log(user)
+  //       console.log(user?.get('ethAddress'))
+  //       setUserAddress(user.get('ethAddress'))
+  //     })
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   const buyTokens = async (buyAmount) => {
     if (!userAddress) {
@@ -233,11 +257,52 @@ export const AppProvider = ({ children }) => {
     }
   }
 
+  const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      'X-API-Key': process.env.NEXT_PUBLIC_MORALIS_WEB3API_KEY,
+    },
+  }
+
+  const fetchNativeBalance = async () => {
+    const nativeBalance = await fetch(
+      `https://deep-index.moralis.io/api/v2/${userAddress}/balance?chain=goerli`,
+      options
+    )
+    const nativeBalanceJson = await nativeBalance.json()
+    return await formatNativeBalance(nativeBalanceJson.balance)
+  }
+
+  const fetchBalance = async () => {
+    const balance = await fetch(
+      `https://deep-index.moralis.io/api/v2/${userAddress}/erc20?chain=goerli`,
+      options
+    )
+    const balanceJson = await balance.json()
+    console.log(balanceJson)
+
+    return balanceJson
+  }
+
+  const getUserBalance = async () => {
+    if (userAddress) {
+      setLoading(true)
+      var assetsArray = await fetchBalance()
+      await fetchNativeBalance().then((nativeBalance) =>
+        assetsArray.unshift(nativeBalance)
+      )
+      setAssets(assetsArray)
+      setLoading(false)
+    }
+  }
+
   //set context user data
   useEffect(async () => {
     // const address = await user?.get('ethAddress')
     // setUserAddress(address)
     await getUserBalance()
+    console.log(assets)
     // setMpayBalance(assets?.filter((i) => i.symbol == 'MPAY')[0].balance)
     // console.log(mpayBalance)
   }, [userAddress])
